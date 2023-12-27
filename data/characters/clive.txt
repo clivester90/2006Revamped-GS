@@ -1,0 +1,194 @@
+[ACCOUNT]
+character-username = clive
+character-password = AOQXBWxFx8mcESwRu5UkwajNg+Bvq+Xn6jviYjK+SAs=
+
+[CHARACTER]
+character-height = 0
+character-posx = 3184
+character-posy = 3438
+character-rights = 3
+mode = STANDARD
+last-ip = 127.0.0.1
+isBot = false
+hideYell = false
+hasStarter = false
+bankPin1 = 0
+bankPin2 = 0
+bankPin3 = 0
+bankPin4 = 0
+hasBankpin = false
+pinRegisteredDeleteDay = 0
+requestPinDelete = false
+lastLoginDate = 20231127
+setPin = false
+hasPaid = false
+lostCannon = false
+ratsCaught = 0
+cannonX = 0
+cannonY = 0
+myBalls = 0
+poison = false
+spiritTree = false
+npcCanAttack = true
+rope = false
+rope2 = false
+recievedMask = false
+recievedReward = false
+global-damage = 117
+brightness = 4
+closeTutorialInterface = true
+canWalkTutorial = true
+village = false
+lastThieve = 1703627364205
+homeTele = 0
+strongHold = false
+character-energy = 100
+crystal-bow-shots = 0
+splitChat = true
+canSpeak = true
+barrowsNpcs = 0	0
+barrowsNpcs = 1	0
+barrowsNpcs = 2	0
+barrowsNpcs = 3	0
+barrowsNpcs = 4	0
+barrowsNpcs = 5	0
+questStages = 0
+SlayerMaster = 0
+music = false	true	false	false	false	false	true	false	false	false	false	true	true	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	true	true	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false
+randomActions = 0
+blackMarks = 0
+tutorial-progress = 36
+tutorial-completed = false
+skull-timer = 0
+recoilHits = 0
+lastX = 3184
+lastY = 3438
+lastH = 0
+removedTask0 = -1
+removedTask1 = -1
+removedTask2 = -1
+removedTask3 = -1
+creationAddress = 
+has-npc = false
+summonId = 0
+questPoints = 26
+votePoints = 0
+bananas = 0
+magic-book = 0
+special-amount = 10.0
+musicOn = true
+needsNewTask = false
+luthas = false
+selected-coffin = 0
+runeMist = 0
+blackKnight = 0
+shieldArrav = 0
+cookAss = 0
+pirateTreasure = 0
+ptjob = 0
+doricQuest = 0
+impsC = 0
+knightS = 0
+sheepShear = 0
+romeo-juliet = 0
+gertCat = 0
+lostCity = 0
+cw-games = 0
+witchspot = 0
+restGhost = 0
+vampSlayer = 0
+RatDied2 = false
+debugMode = false
+randomToggle = false
+teleblock-length = 0
+pc-points = 0
+lastYell = 0
+slayerTask = 0
+taskAmount = 0
+magePoints = 0
+autoRet = 0
+barrowsKillCount = 0
+slayerPoints = 0
+flagged = false
+wave = 0
+gwkc = 0
+isRunning = true
+fightMode = 2
+void = 0	0	0	0	0
+
+[EQUIPMENT]
+character-equip = 0	-1	1
+character-equip = 1	-1	1
+character-equip = 2	-1	1
+character-equip = 3	1277	1
+character-equip = 4	-1	1
+character-equip = 5	-1	1
+character-equip = 6	-1	0
+character-equip = 7	-1	1
+character-equip = 8	-1	0
+character-equip = 9	-1	1
+character-equip = 10	-1	1
+character-equip = 11	-1	0
+character-equip = 12	-1	1
+character-equip = 13	-1	0
+
+[LOOK]
+character-look = 0	0
+character-look = 1	5
+character-look = 2	18
+character-look = 3	27
+character-look = 4	34
+character-look = 5	38
+character-look = 6	43
+character-look = 7	15
+character-look = 8	3
+character-look = 9	1
+character-look = 10	2
+character-look = 11	3
+character-look = 12	1
+
+[SKILLS]
+character-skill = 0	99	14391160
+character-skill = 1	99	14391160
+character-skill = 2	99	14391160
+character-skill = 3	99	14391160
+character-skill = 4	99	14391160
+character-skill = 5	99	14391160
+character-skill = 6	99	14393785
+character-skill = 7	99	14391160
+character-skill = 8	99	14391160
+character-skill = 9	99	14391160
+character-skill = 10	99	14391160
+character-skill = 11	99	14391160
+character-skill = 12	99	14391160
+character-skill = 13	99	14391160
+character-skill = 14	99	14391160
+character-skill = 15	99	14391160
+character-skill = 16	99	14391160
+character-skill = 17	99	14391160
+character-skill = 18	99	14391160
+character-skill = 19	99	14391160
+character-skill = 20	99	14391160
+character-skill = 21	99	14391160
+character-skill = 22	99	14391160
+character-skill = 23	99	14391160
+character-skill = 24	99	14391160
+
+[ITEMS]
+
+[BANK]
+character-bank = 0	996	42
+character-bank = 1	563	1
+character-bank = 2	556	7
+character-bank = 3	559	16
+character-bank = 4	557	22
+character-bank = 5	558	5
+character-bank = 6	562	1
+character-bank = 7	564	100
+character-bank = 8	555	10000
+
+[FRIENDS]
+
+[IGNORES]
+
+[EOF]
