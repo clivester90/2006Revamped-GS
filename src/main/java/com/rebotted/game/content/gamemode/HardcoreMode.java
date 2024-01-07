@@ -2,14 +2,14 @@ package com.rebotted.game.content.gamemode;
 
 import com.rebotted.game.players.Player;
 
-public class RogueMode extends Mode {
+public class HardcoreMode extends Mode {
 
     /**
      * Creates a new mode for a specific type
      *
      * @param type the type of mode
      */
-    public RogueMode(ModeType type) {
+    public HardcoreMode(ModeType type) {
         super(type);
     }
 

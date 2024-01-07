@@ -1,5 +1,7 @@
 package com.rebotted.util;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -315,5 +317,12 @@ public class Misc {
 			}
 		}
 		return s;
+	}
+
+	/**
+	 * Capitalizes the first letter of every word.
+	 */
+	public static String capitalizeEveryWord(String string) {
+		return WordUtils.capitalize(string);
 	}
 }

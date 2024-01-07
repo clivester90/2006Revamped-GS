@@ -1,6 +1,7 @@
 package com.rebotted.game.content.randomevents;
 
 import com.rebotted.game.players.Player;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.Misc;
 
 /**
@@ -68,7 +69,7 @@ public class RandomEventHandler {
 				}
 			} else {
 				int nextRandom = CALL_RANDOM - c.randomActions;
-				if (c.getPlayerRights() == 3) {
+				if (c.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 					c.getPacketSender().sendMessage("Next random will be in " + nextRandom + " more random actions.");
 				}
 				c.randomActions += 1;

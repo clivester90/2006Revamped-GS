@@ -12,6 +12,8 @@ import com.rebotted.game.content.combat.magic.SpellTeleport;
 import com.rebotted.game.npcs.NpcHandler;
 import com.rebotted.game.players.*;
 import com.rebotted.game.players.antimacro.AntiSpam;
+import com.rebotted.game.players.right.Right;
+import com.rebotted.game.players.right.RightGroup;
 import com.rebotted.net.packets.PacketType;
 import com.rebotted.util.Misc;
 import com.rebotted.world.clip.Region;
@@ -26,19 +28,19 @@ public class Commands implements PacketType {
         String[] messageArr = player.getInStream().readString().split(" ");
         String playerCommand = messageArr[0];
         String[] commandArguments = Arrays.copyOfRange(messageArr, 1, messageArr.length);
-        if ((playerCommand.startsWith("ban") || playerCommand.startsWith("ip") || playerCommand.startsWith("mute") || playerCommand.startsWith("un")) && player.getPlayerRights() > 0 && player.getPlayerRights() < 4) {
+        if ((playerCommand.startsWith("ban") || playerCommand.startsWith("ip") || playerCommand.startsWith("mute") || playerCommand.startsWith("un")) && player.getRights().isOrInherits(Right.MODERATOR)) {
             writeLog(player.playerName, "commands", player.playerName + " used command: " + playerCommand);
         }
-        if (player.getPlayerRights() >= 0) {
+        if (player.getRights().isOrInherits(Right.PLAYER)) {
             playerCommands(player, playerCommand, commandArguments);
         }
-        if (player.getPlayerRights() >= 1) {
+        if (player.getRights().isOrInherits(Right.MODERATOR)) {
             moderatorCommands(player, playerCommand, commandArguments);
         }
-        if (player.getPlayerRights() >= 2 && player.getPlayerRights() < 4) {
+        if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
             adminCommands(player, playerCommand, commandArguments);
         }
-        if (player.getPlayerRights() == 3) {
+        if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
             developerCommands(player, playerCommand, commandArguments);
         }
     }
@@ -51,7 +53,7 @@ public class Commands implements PacketType {
                 break;
             case "yell":
                 int delay = 0;
-                if (player.getPlayerRights() <= 1) {
+                if (player.getRights().equals(Right.PLAYER)) {
                     delay = 30000;
                 }
                 if (!AntiSpam.blockedWords(player, arguments[0].substring(5), true)) {
@@ -71,13 +73,13 @@ public class Commands implements PacketType {
                         if (c2.hideYell) {
                             return;
                         }
-                        if (player.getPlayerRights() == 0) {
+                        if (player.getRights().isOrInherits(Right.PLAYER)) {
                             c2.getPacketSender().sendMessage("[Player]" + Misc.optimizeText(player.playerName) + ": " + Misc.optimizeText(String.join(" ", arguments)));
-                        } else if (player.getPlayerRights() == 1) {
+                        } else if (player.getRights().isOrInherits(Right.MODERATOR)) {
                             c2.getPacketSender().sendMessage("@blu@[Moderator] @bla@" + Misc.optimizeText(player.playerName) + ": " + Misc.optimizeText(String.join(" ", arguments)));
-                        } else if (player.getPlayerRights() == 2) {
+                        } else if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
                             c2.getPacketSender().sendMessage("@gre@[Administator] @bla@" + Misc.optimizeText(player.playerName) + ": " + Misc.optimizeText(String.join(" ", arguments)));
-                        } else if (player.getPlayerRights() == 3) {
+                        } else if (player.getPlayerName().equalsIgnoreCase("Clive")) {
                             c2.getPacketSender().sendMessage("@red@[Developer] @bla@" + Misc.optimizeText(player.playerName) + ": " + Misc.optimizeText(String.join(" ", arguments)));
                         }
                         player.lastYell = System.currentTimeMillis();
@@ -782,7 +784,7 @@ public class Commands implements PacketType {
                             if (PlayerHandler.players[i].playerName.equalsIgnoreCase(playerToAdmin)) {
                                 Client c2 = (Client) PlayerHandler.players[i];
                                 player.getPacketSender().sendMessage("You have given " + playerToAdmin + " admin.");
-                                c2.setPlayerRights(2);
+                                c2.setRights(new RightGroup(c2, Right.ADMINISTRATOR));
                                 c2.logout(true);
                                 break;
                             }
@@ -804,7 +806,7 @@ public class Commands implements PacketType {
                             if (PlayerHandler.players[i].playerName.equalsIgnoreCase(toDemote)) {
                                 Client c2 = (Client) PlayerHandler.players[i];
                                 player.getPacketSender().sendMessage("You have demoted " + toDemote + ".");
-                                c2.setPlayerRights(0);
+                                c2.setRights(new RightGroup(c2, Right.PLAYER));
                                 c2.logout(true);
                                 break;
                             }
@@ -826,7 +828,7 @@ public class Commands implements PacketType {
                             if (PlayerHandler.players[i].playerName.equalsIgnoreCase(playerToMod)) {
                                 Client c2 = (Client) PlayerHandler.players[i];
                                 player.getPacketSender().sendMessage("You have given " + playerToMod + " mod.");
-                                c2.setPlayerRights(1);
+                                c2.setRights(new RightGroup(c2, Right.MODERATOR));
                                 c2.logout(true);
                                 break;
                             }

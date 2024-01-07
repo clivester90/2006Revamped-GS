@@ -4,6 +4,7 @@ import com.rebotted.game.content.skills.runecrafting.Runecrafting;
 import com.rebotted.game.items.impl.HandleEmpty;
 import com.rebotted.game.items.impl.Teles;
 import com.rebotted.game.players.Player;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.net.packets.PacketType;
 import com.rebotted.util.Misc;
 
@@ -100,7 +101,7 @@ public class ItemClick3 implements PacketType {
 
 		default:
 
-			if (player.getPlayerRights() == 3) {
+			if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 				Misc.println(player.playerName + " - Item3rdOption: " + itemId
 						+ " : " + itemId11 + " : " + itemId1);
 			}

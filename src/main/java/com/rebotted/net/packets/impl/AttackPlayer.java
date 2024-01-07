@@ -8,6 +8,7 @@ import com.rebotted.game.content.combat.range.RangeData;
 import com.rebotted.game.items.ItemAssistant;
 import com.rebotted.game.players.Player;
 import com.rebotted.game.players.PlayerHandler;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.net.packets.PacketType;
 
 public class AttackPlayer implements PacketType {
@@ -164,7 +165,7 @@ public class AttackPlayer implements PacketType {
 				break;
 			}
 
-			if (player.getPlayerRights() == 3) {
+			if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 				player.getPacketSender().sendMessage(
 						"Casting Spell id: " + castingSpellId + ".");
 			}

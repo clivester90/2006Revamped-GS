@@ -8,6 +8,7 @@ import java.util.Base64;
 
 import com.rebotted.game.content.gamemode.Mode;
 import com.rebotted.game.content.gamemode.ModeType;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.Misc;
 
 public class PlayerSave {
@@ -91,7 +92,8 @@ public class PlayerSave {
 								player.teleportToY = Integer.parseInt(token2) <= 0 ? player.lastY : Integer.parseInt(token2);
 								break;
 							case "character-rights":
-								player.setPlayerRights(Integer.parseInt(token2));
+								player.getRights().setPrimary(Right.get(Integer.parseInt(token2)));
+								//player.setPlayerRights(Integer.parseInt(token2));
 								break;
 							case "character-mode":
 								ModeType type;
@@ -582,7 +584,8 @@ public class PlayerSave {
 			characterfile.newLine();
 			characterfile.write("character-posy = " + player.absY);
 			characterfile.newLine();
-			characterfile.write("character-rights = " + player.getPlayerRights());
+			characterfile.write("character-rights = " + player.getRights().getPrimary().getValue());
+			//characterfile.write("character-rights = " + player.getPlayerRights());
 			characterfile.newLine();
 			if (player.getMode() != null) {
 				characterfile.write("mode = " + player.getMode().getType().name());

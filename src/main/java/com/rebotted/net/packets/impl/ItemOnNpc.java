@@ -4,6 +4,7 @@ import com.rebotted.game.content.skills.SkillHandler;
 import com.rebotted.game.items.UseItem;
 import com.rebotted.game.npcs.NpcHandler;
 import com.rebotted.game.players.Player;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.net.packets.PacketType;
 
 public class ItemOnNpc implements PacketType {
@@ -16,14 +17,14 @@ public class ItemOnNpc implements PacketType {
 		final int npcId = NpcHandler.npcs[i].npcType;
 		SkillHandler.resetItemOnNpc(player);
 		player.endCurrentTask();
-		if (player.getPlayerRights() == 3) {
+		if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 			player.getPacketSender().sendMessage("Item id: " + itemId + " slot: " + slot + " i: " + i);
 		}
 		if (player.getItemAssistant().freeSlots() < 1) {
 			player.getPacketSender().sendMessage("Your inventory is full.");
 			return;
 		}
-		if (player == null || player.disconnected || !player.getItemAssistant().playerHasItem(itemId, 1, slot) || NpcHandler.npcs[i] == null || NpcHandler.npcs[i].isDead || player.isDead || player.isTeleporting) {
+		if (player.disconnected || !player.getItemAssistant().playerHasItem(itemId, 1, slot) || NpcHandler.npcs[i] == null || NpcHandler.npcs[i].isDead || player.isDead || player.isTeleporting) {
 			return;
 		}
 		player.faceNpc(i);

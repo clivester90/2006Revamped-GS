@@ -35,6 +35,7 @@ import com.rebotted.game.objects.impl.Climbing;
 import com.rebotted.game.players.Client;
 import com.rebotted.game.players.Player;
 import com.rebotted.game.players.PlayerHandler;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.net.packets.PacketType;
 import com.rebotted.util.Misc;
 
@@ -81,7 +82,7 @@ public class ClickingButtons implements PacketType {
 		if (player.isDead) {
 			return;
 		}
-		if (player.getPlayerRights() == 3) {
+		if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 			player.getPacketSender().sendMessage(player.playerName + " - actionbutton: " + actionButtonId);
 		}
 		if (player.isAutoButton(actionButtonId)) {

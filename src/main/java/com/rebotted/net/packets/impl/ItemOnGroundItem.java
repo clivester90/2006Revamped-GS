@@ -3,6 +3,7 @@ package com.rebotted.net.packets.impl;
 import com.rebotted.GameEngine;
 import com.rebotted.game.content.skills.firemaking.Firemaking;
 import com.rebotted.game.players.Player;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.net.packets.PacketType;
 import com.rebotted.util.Misc;
 
@@ -34,7 +35,7 @@ public class ItemOnGroundItem implements PacketType {
 			break;
 
 		default:
-			if (player.getPlayerRights() == 3) {
+			if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 				Misc.println("ItemUsed " + itemUsed + " on Ground Item "
 						+ groundItem);
 			}

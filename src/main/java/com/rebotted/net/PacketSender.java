@@ -85,7 +85,7 @@ public class PacketSender {
 				GameEngine.npcHandler.spawnNpc3(player, player.summonId, player.absX, player.absY - 1, player.heightLevel, 0, 120, 25, 200, 200, true, false, true);
 			}
 		}
-		if (player.questPoints > QuestAssistant.MAXIMUM_QUESTPOINTS || player.getPlayerRights() > 2) {
+		if (player.questPoints > QuestAssistant.MAXIMUM_QUESTPOINTS || player.getRights().isNotAdmin()) {
 			player.questPoints = QuestAssistant.MAXIMUM_QUESTPOINTS;// check for abusers
 		}
 		if (SkillData.HITPOINTS.getId() < 0) {
@@ -207,7 +207,7 @@ public class PacketSender {
 			int x = 0;
 			int y = 0;
 			player.getOutStream().createFrame(160);
-			player.getOutStream().writeByteS(((x&7) << 4) + (y&7));//tiles away - could just send 0       
+			player.getOutStream().writeByteS(0);//tiles away - could just send 0
 			player.getOutStream().writeByteS((tileObjectType<<2) +(orientation&3));
 			player.getOutStream().writeWordA(animationID);// animation id
 		} catch(Exception e){
@@ -218,7 +218,7 @@ public class PacketSender {
 	
 	
 	public PacketSender setInterfaceOffset(int x, int y, int id) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(70);
 			player.getOutStream().writeWord(x);
 			player.getOutStream().writeWordBigEndian(y);
@@ -241,13 +241,18 @@ public class PacketSender {
 	}
 
 	public PacketSender chatbox(int i1) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.outStream.createFrame(218);
 			player.outStream.writeWordBigEndianA(i1);
-			player.updateRequired = true;
-			player.appearanceUpdateRequired = true;
+			player.setUpdateRequired(true);
+			player.setAppearanceUpdateRequired(true);
 		}
 		return this;
+	}
+
+	public void requestUpdates() {
+		player.setUpdateRequired(true);
+		player.setAppearanceUpdateRequired(true);
 	}
 
 	public PacketSender sendMessage(String s) {
@@ -267,17 +272,15 @@ public class PacketSender {
 		for (Player player : PlayerHandler.players) {
 			if (player != null) {
 				Client person = (Client) player;
-				if (person != null) {
-					if (person.getOutStream() != null && !person.disconnected) {
-						if (player
-								.distanceToPoint(person.getX(), person.getY()) <= 25) {
-							person.getOutStream().createFrame(1);
-							person.flushOutStream();
-							person.getPlayerAssistant().requestUpdates();
-						}
-					}
-				}
-			}
+                if (person.getOutStream() != null && !person.disconnected) {
+                    if (player
+                            .distanceToPoint(person.getX(), person.getY()) <= 25) {
+                        person.getOutStream().createFrame(1);
+                        person.flushOutStream();
+                        person.getPlayerAssistant().requestUpdates();
+                    }
+                }
+            }
 		}
 		return this;
 	}
@@ -290,7 +293,7 @@ public class PacketSender {
 	}
 	
 	public PacketSender sendFrame36(int id, int state) {
-		if(player.getOutStream() != null && player != null) {
+		if(player.getOutStream() != null) {
 			player.getOutStream().createFrame(36);
 			player.getOutStream().writeWordBigEndian(id);
 			player.getOutStream().writeByte(state);
@@ -300,7 +303,7 @@ public class PacketSender {
 	}
 
 	public PacketSender sendFrame20(int id, int state) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(36);
 			player.getOutStream().writeWordBigEndian(id);
 			player.getOutStream().writeByte(state);
@@ -313,7 +316,7 @@ public class PacketSender {
 		if(!player.checkPacket126Update(s, id)) {
 			return this;
 		}
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrameVarSizeWord(126);
 			player.getOutStream().writeString(s);
 			player.getOutStream().writeWordA(id);
@@ -324,7 +327,7 @@ public class PacketSender {
 	}
 
 	public PacketSender sendFrame107() {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(107);
 			player.flushOutStream();
 		}
@@ -332,7 +335,7 @@ public class PacketSender {
 	}
 
 	public PacketSender sendPlayerDialogueHead(int Frame) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(185);
 			player.getOutStream().writeWordBigEndianA(Frame);
 		}
@@ -354,7 +357,7 @@ public class PacketSender {
 	public PacketSender sendFrame248(int MainFrame, int SubFrame) { //Trade-like interfaces
 		// synchronized(c) {
 		player.lastMainFrameInterface = MainFrame;
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(248);
 			player.getOutStream().writeWordA(MainFrame);
 			player.getOutStream().writeWord(SubFrame);
@@ -365,7 +368,7 @@ public class PacketSender {
 
 	public PacketSender sendFrame171(int state, int componentId) { //Special attack bar?
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(171);
 			player.getOutStream().writeByte(state);
 			player.getOutStream().writeWord(componentId);
@@ -376,7 +379,7 @@ public class PacketSender {
 
 	public PacketSender sendDialogueAnimation(int componentId, int animation) {
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(200);
 			player.getOutStream().writeWord(componentId);
 			player.getOutStream().writeWord(animation);
@@ -388,7 +391,7 @@ public class PacketSender {
 	public int mapStatus = 0;
 
 	public PacketSender sendMapState(int state) { // used for disabling map
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			if (mapStatus != state) {
 				mapStatus = state;
 				player.getOutStream().createFrame(99);
@@ -400,7 +403,7 @@ public class PacketSender {
 	}
 
 	public PacketSender sendFrame106(int sideIcon) { //Something to do with magic
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(106);
 			player.getOutStream().writeByteC(sideIcon);
 			player.flushOutStream();
@@ -410,7 +413,7 @@ public class PacketSender {
 	}
 
 	public PacketSender sendFrame70(int i, int o, int id) { //Ranging guild minigame
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(70);
 			player.getOutStream().writeWord(i);
 			player.getOutStream().writeWordBigEndian(o);
@@ -421,7 +424,7 @@ public class PacketSender {
 	}
 
 	public PacketSender sendNPCDialogueHead(int MainFrame, int SubFrame) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(75);
 			player.getOutStream().writeWordBigEndianA(MainFrame);
 			player.getOutStream().writeWordBigEndianA(SubFrame);
@@ -432,7 +435,7 @@ public class PacketSender {
 
 	public PacketSender sendChatInterface(int Frame) {
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(164);
 			player.getOutStream().writeWordBigEndian_dup(Frame);
 			player.flushOutStream();
@@ -442,7 +445,7 @@ public class PacketSender {
 
 	public PacketSender setPrivateMessaging(int i) { // friends and ignore list status
 												// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(221);
 			player.getOutStream().writeByte(i);
 			player.flushOutStream();
@@ -452,7 +455,7 @@ public class PacketSender {
 
 	public PacketSender setChatOptions(int publicChat, int privateChat, int tradeBlock) {
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(206);
 			player.getOutStream().writeByte(publicChat);
 			player.getOutStream().writeByte(privateChat);
@@ -464,7 +467,7 @@ public class PacketSender {
 
 	public PacketSender sendFrame87(int id, int state) { //Castlewars and duel arena texts
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(87);
 			player.getOutStream().writeWordBigEndian_dup(id);
 			player.getOutStream().writeDWord_v1(state);
@@ -476,7 +479,7 @@ public class PacketSender {
 	public PacketSender sendPM(long name, int rights, byte[] chatmessage,
 			int messagesize) {
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrameVarSize(196);
 			player.getOutStream().writeQWord(name);
 			player.getOutStream().writeDWord(player.lastChatId++);
@@ -492,7 +495,7 @@ public class PacketSender {
 
 	public PacketSender loadPM(long playerName, int world) {
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			if (world != 0) {
 				world += 9;
 			} else if (!GameConstants.WORLD_LIST_FIX) {
@@ -508,7 +511,7 @@ public class PacketSender {
 
 	public PacketSender closeAllWindows() {
 		player.lastMainFrameInterface = -1;
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(219);
 			player.flushOutStream();
 		}
@@ -516,7 +519,7 @@ public class PacketSender {
 	}
 
 	public PacketSender sendFrame34(int id, int slot, int column, int amount) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.outStream.createFrameVarSizeWord(34); // init item to smith
 			// screen
 			player.outStream.writeWord(column); // Column Across Smith Screen
@@ -532,7 +535,7 @@ public class PacketSender {
 	public PacketSender sendInterfaceModel(int interfaceChild, int zoom, int itemId) { //A lot of generic interfaces; cooking, etc
 		player.lastMainFrameInterface = interfaceChild;
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(246);
 			player.getOutStream().writeWordBigEndian(interfaceChild);
 			player.getOutStream().writeWord(zoom);
@@ -559,7 +562,7 @@ public class PacketSender {
 	}
 	
 	public PacketSender walkableInterface(int id) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(208);
 			player.getOutStream().writeWordBigEndian_dup(id);
 			player.flushOutStream();
@@ -584,7 +587,7 @@ public class PacketSender {
 			return this;
 		}
 
-		if (!Boundary.isIn(player, Boundary.BANK_AREA) && player.getPlayerRights() < 3) {
+		if (!Boundary.isIn(player, Boundary.BANK_AREA) && player.getRights().isNotAdmin()) {
 			player.getPacketSender().sendMessage("You can't open a bank unless you're in a bank area!");
 			player.getPacketSender().sendMessage("If this is a bug, please report it! Your coords are [" + player.absX + "," + player.absY + "]");
 			player.getPacketSender().closeAllWindows();
@@ -644,7 +647,7 @@ public class PacketSender {
 	 **/
 	public PacketSender stillGfx(int id, int x, int y, int height, int time) {
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(85);
 			player.getOutStream().writeByteC(y - player.getMapRegionY() * 8);
 			player.getOutStream().writeByteC(x - player.getMapRegionX() * 8);
@@ -685,7 +688,7 @@ public class PacketSender {
 	}
 
 	public PacketSender createPlayerHints(int type, int id) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(254);
 			player.getOutStream().writeByte(type);
 			player.getOutStream().writeWord(id);
@@ -697,7 +700,7 @@ public class PacketSender {
 
 	public PacketSender createObjectHints(int x, int y, int height, int pos) {
 		// synchronized(c) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(254);
 			player.getOutStream().writeByte(pos);
 			player.getOutStream().writeWord(x);
@@ -711,7 +714,7 @@ public class PacketSender {
 	public PacketSender createProjectile(int x, int y, int offX, int offY,
 			int angle, int speed, int gfxMoving, int startHeight,
 			int endHeight, int lockon, int time) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(85);
 			player.getOutStream()
 					.writeByteC(y - player.getMapRegionY() * 8 - 2);
@@ -737,7 +740,7 @@ public class PacketSender {
 	public PacketSender createProjectile2(int x, int y, int offX, int offY,
 			int angle, int speed, int gfxMoving, int startHeight,
 			int endHeight, int lockon, int time, int slope) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(85);
 			player.getOutStream()
 					.writeByteC(y - player.getMapRegionY() * 8 - 2);
@@ -764,7 +767,7 @@ public class PacketSender {
 	 * Objects, add and remove
 	 **/
 	public PacketSender object(int objectId, int objectX, int objectY, int face, int objectType) {
-		if (player.getOutStream() != null && player != null) {
+		if (player.getOutStream() != null) {
 			player.getOutStream().createFrame(85);
 			player.getOutStream().writeByteC(
 					objectY - player.getMapRegionY() * 8);
@@ -791,7 +794,7 @@ public class PacketSender {
 			return this;
 		}
 		if (Misc.goodDistance(objectX, objectY, player.absX, player.absY, 60)) {
-			if (player.getOutStream() != null && player != null) {
+			if (player.getOutStream() != null) {
 				player.getOutStream().createFrame(85);
 				player.getOutStream().writeByteC(objectY - player.getMapRegionY() * 8);
 				player.getOutStream().writeByteC(objectX - player.getMapRegionX() * 8);
@@ -839,20 +842,18 @@ public class PacketSender {
 
 	public PacketSender sendConfig(int id, int state) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			if (state < Byte.MIN_VALUE || state > Byte.MAX_VALUE) {
-				player.getOutStream().createFrame(87);
-				player.getOutStream().writeWordBigEndian_dup(id);
-				player.getOutStream().writeDWord_v1(state);
-				player.flushOutStream();
-			} else {
-				player.getOutStream().createFrame(36);
-				player.getOutStream().writeWordBigEndian(id);
-				player.getOutStream().writeByte(state);
-				player.flushOutStream();
-			}
-		}
-		return this;
+        if (state < Byte.MIN_VALUE || state > Byte.MAX_VALUE) {
+            player.getOutStream().createFrame(87);
+            player.getOutStream().writeWordBigEndian_dup(id);
+            player.getOutStream().writeDWord_v1(state);
+            player.flushOutStream();
+        } else {
+            player.getOutStream().createFrame(36);
+            player.getOutStream().writeWordBigEndian(id);
+            player.getOutStream().writeByte(state);
+            player.flushOutStream();
+        }
+        return this;
 	}
 
 	public PacketSender multiWay(int i1) {
@@ -867,72 +868,62 @@ public class PacketSender {
 
 	public PacketSender sendColor(int id, int color) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.outStream.createFrame(122);
-			player.outStream.writeWordBigEndianA(id);
-			player.outStream.writeWordBigEndianA(color);
-		}
-		return this;
+        player.outStream.createFrame(122);
+        player.outStream.writeWordBigEndianA(id);
+        player.outStream.writeWordBigEndianA(color);
+        return this;
 	}
 
 	public PacketSender sendCrashFrame() {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.getOutStream().createFrame(123);
-			player.flushOutStream();
-		}
-		return this;
+        player.getOutStream().createFrame(123);
+        player.flushOutStream();
+        return this;
 	}
 
 	public PacketSender createStillGfx(int id, int x, int y, int height, int time) {
 		for (Player p : PlayerHandler.players) {
 			if (p != null) {
 				Client person = (Client) p;
-				if (person != null) {
-					if (person.getOutStream() != null) {
-						if (person.distanceToPoint(x, y) <= 25) {
-							person.getPacketSender().stillGfx(id, x, y,
-									height, time);
-						}
-					}
-				}
-			}
+                if (person.getOutStream() != null) {
+                    if (person.distanceToPoint(x, y) <= 25) {
+                        person.getPacketSender().stillGfx(id, x, y,
+                                height, time);
+                    }
+                }
+            }
 		}
 		return this;
 	}
 
 	public PacketSender object(int objectId, int objectX, int objectY, int objectType) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.getOutStream().createFrame(85);
-			player.getOutStream().writeByteC(
-					objectY - player.getMapRegionY() * 8);
-			player.getOutStream().writeByteC(
-					objectX - player.getMapRegionX() * 8);
-			player.getOutStream().createFrame(101);
-			player.getOutStream().writeByteC((objectType << 2) + (0 & 3));
-			player.getOutStream().writeByte(0);
-			if (objectId != -1) { // removing
-				player.getOutStream().createFrame(151);
-				player.getOutStream().writeByteS(0);
-				player.getOutStream().writeWordBigEndian(objectId);
-				player.getOutStream().writeByteS((objectType << 2) + (0 & 3));
-			}
-			player.flushOutStream();
-		}
-		return this;
+        player.getOutStream().createFrame(85);
+        player.getOutStream().writeByteC(
+                objectY - player.getMapRegionY() * 8);
+        player.getOutStream().writeByteC(
+                objectX - player.getMapRegionX() * 8);
+        player.getOutStream().createFrame(101);
+        player.getOutStream().writeByteC((objectType << 2) + (0 & 3));
+        player.getOutStream().writeByte(0);
+        if (objectId != -1) { // removing
+            player.getOutStream().createFrame(151);
+            player.getOutStream().writeByteS(0);
+            player.getOutStream().writeWordBigEndian(objectId);
+            player.getOutStream().writeByteS((objectType << 2) + (0 & 3));
+        }
+        player.flushOutStream();
+        return this;
 	}
 
 	public PacketSender itemOnInterface(int interfaceChild, int zoom, int itemId) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.getOutStream().createFrame(246);
-			player.getOutStream().writeWordBigEndian(interfaceChild);
-			player.getOutStream().writeWord(zoom);
-			player.getOutStream().writeWord(itemId);
-			player.flushOutStream();
-		}
-		return this;
+        player.getOutStream().createFrame(246);
+        player.getOutStream().writeWordBigEndian(interfaceChild);
+        player.getOutStream().writeWord(zoom);
+        player.getOutStream().writeWord(itemId);
+        player.flushOutStream();
+        return this;
 	}
 
 	public PacketSender setConfig(int id, int state) {
@@ -945,23 +936,19 @@ public class PacketSender {
 
 	public PacketSender sendLink(String s) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.getOutStream().createFrameVarSizeWord(187);
-			player.getOutStream().writeString(s);
-		}
-		return this;
+        player.getOutStream().createFrameVarSizeWord(187);
+        player.getOutStream().writeString(s);
+        return this;
 	}
 
 	public PacketSender setSkillLevel(int skillNum, int currentLevel, int XP) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.getOutStream().createFrame(134);
-			player.getOutStream().writeByte(skillNum);
-			player.getOutStream().writeDWord_v1(XP);
-			player.getOutStream().writeByte(currentLevel);
-			player.flushOutStream();
-		}
-		return this;
+        player.getOutStream().createFrame(134);
+        player.getOutStream().writeByte(skillNum);
+        player.getOutStream().writeDWord_v1(XP);
+        player.getOutStream().writeByte(currentLevel);
+        player.flushOutStream();
+        return this;
 	}
 
 	/**
@@ -995,36 +982,32 @@ public class PacketSender {
 
 	public PacketSender createArrow(int x, int y, int height, int pos) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.getOutStream().createFrame(254); // The packet ID
-			player.getOutStream().writeByte(pos); // Position on Square(2 =
-													// middle, 3
-													// = west, 4 = east, 5 =
-													// south,
-													// 6 = north)
-			player.getOutStream().writeWord(x); // X-Coord of Object
-			player.getOutStream().writeWord(y); // Y-Coord of Object
-			player.getOutStream().writeByte(height); // Height off Ground
-		}
-		return this;
+        player.getOutStream().createFrame(254); // The packet ID
+        player.getOutStream().writeByte(pos); // Position on Square(2 =
+        // middle, 3
+        // = west, 4 = east, 5 =
+        // south,
+        // 6 = north)
+        player.getOutStream().writeWord(x); // X-Coord of Object
+        player.getOutStream().writeWord(y); // Y-Coord of Object
+        player.getOutStream().writeByte(height); // Height off Ground
+        return this;
 	}
 
 	// npc
 
 	public PacketSender createArrow(int type, int id) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.getOutStream().createFrame(254); // The packet ID
-			player.getOutStream().writeByte(type); // 1=NPC, 10=Player
-			player.getOutStream().writeWord(id); // NPC/Player ID
-			player.getOutStream().write3Byte(0); // Junk
-		}
-		return this;
+        player.getOutStream().createFrame(254); // The packet ID
+        player.getOutStream().writeByte(type); // 1=NPC, 10=Player
+        player.getOutStream().writeWord(id); // NPC/Player ID
+        player.getOutStream().write3Byte(0); // Junk
+        return this;
 	}	
 
 	public PacketSender checkObjectSpawn(int objectId, int objectX, int objectY, int face, int objectType) {
 		if (player.distanceToPoint(objectX, objectY) < 60) {
-			if (player.getOutStream() != null && player != null) {
+			if (player.getOutStream() != null) {
 				player.getOutStream().createFrame(85);
 				player.getOutStream().writeByteC(
 						objectY - player.getMapRegionY() * 8);
@@ -1056,22 +1039,20 @@ public class PacketSender {
 			return this;
 		}
 		if (player.distanceToPoint(objectX, objectY) < 60) {
-			if (player != null) {
-				player.getOutStream().createFrame(85);
-				player.getOutStream().writeByteC(objectY - player.getMapRegionY() * 8);
-				player.getOutStream().writeByteC(objectX - player.getMapRegionX() * 8);
-				player.getOutStream().createFrame(101);
-				player.getOutStream().writeByteC((objectType << 2) + (face & 3));
-				player.getOutStream().writeByte(0);
-				if (objectId != -1) { // removing
-					player.getOutStream().createFrame(151);
-					player.getOutStream().writeByteS(0);
-					player.getOutStream().writeWordBigEndian(objectId);
-					player.getOutStream().writeByteS((objectType << 2) + (face & 3));
-				}
-				player.flushOutStream();
-			}
-		}
+            player.getOutStream().createFrame(85);
+            player.getOutStream().writeByteC(objectY - player.getMapRegionY() * 8);
+            player.getOutStream().writeByteC(objectX - player.getMapRegionX() * 8);
+            player.getOutStream().createFrame(101);
+            player.getOutStream().writeByteC((objectType << 2) + (face & 3));
+            player.getOutStream().writeByte(0);
+            if (objectId != -1) { // removing
+                player.getOutStream().createFrame(151);
+                player.getOutStream().writeByteS(0);
+                player.getOutStream().writeWordBigEndian(objectId);
+                player.getOutStream().writeByteS((objectType << 2) + (face & 3));
+            }
+            player.flushOutStream();
+        }
 		return this;
 	}
 
@@ -1082,18 +1063,16 @@ public class PacketSender {
 
 	public PacketSender showOption(int i, int l, String s, int a) {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			if (!optionType.equalsIgnoreCase(s)) {
-				optionType = s;
-				player.getOutStream().createFrameVarSize(104);
-				player.getOutStream().writeByteC(i);
-				player.getOutStream().writeByteA(l);
-				player.getOutStream().writeString(s);
-				player.getOutStream().endFrameVarSize();
-				player.flushOutStream();
-			}
-		}
-		return this;
+        if (!optionType.equalsIgnoreCase(s)) {
+            optionType = s;
+            player.getOutStream().createFrameVarSize(104);
+            player.getOutStream().writeByteC(i);
+            player.getOutStream().writeByteA(l);
+            player.getOutStream().writeString(s);
+            player.getOutStream().endFrameVarSize();
+            player.flushOutStream();
+        }
+        return this;
 	}
 
 	/**
@@ -1103,7 +1082,7 @@ public class PacketSender {
 	public PacketSender sendSong(int id) {
 		if (player.getOutStream() == null) 
 			return this;
-		if (player != null && id != -1) {
+		if (id != -1) {
 			player.getOutStream().createFrame(74);
 			player.getOutStream().writeWordBigEndian(id);
 		}
@@ -1117,13 +1096,11 @@ public class PacketSender {
 	public PacketSender sendQuickSong(int id, int songDelay) {
 		if (player.getOutStream() == null) 
 			return this;
-		if (player != null) {
-			player.getOutStream().createFrame(121);
-			player.getOutStream().writeWordBigEndian(id);
-			player.getOutStream().writeWordBigEndian(songDelay);
-			player.flushOutStream();
-		}
-		return this;
+        player.getOutStream().createFrame(121);
+        player.getOutStream().writeWordBigEndian(id);
+        player.getOutStream().writeWordBigEndian(songDelay);
+        player.flushOutStream();
+        return this;
 	}
 
 	/**
@@ -1133,7 +1110,7 @@ public class PacketSender {
 	public PacketSender sendSound(int id, int type, int delay, int volume) {
 		if (player.getOutStream() == null) 
 			return this;
-		if (player != null && id != -1) {
+		if (id != -1) {
 			player.getOutStream().createFrame(174);
 			player.getOutStream().writeWord(id);
 			player.getOutStream().writeByte(type);
@@ -1155,11 +1132,9 @@ public class PacketSender {
 
 	public PacketSender sendClearScreen() {
 		if (player.getOutStream() == null) return this;
-		if (player != null) {
-			player.getOutStream().createFrame(219);
-			player.flushOutStream();
-		}
-		return this;
+        player.getOutStream().createFrame(219);
+        player.flushOutStream();
+        return this;
 	}
 
 	public PacketSender createGroundItem(int itemID, int itemX, int itemY, int itemAmount) {
@@ -1198,10 +1173,7 @@ public class PacketSender {
 
 	public PacketSender removeGroundItem(int itemID, int itemX, int itemY, int Amount) {
 		if (player.getOutStream() == null) return this;
-		if (player == null) {
-			return this;
-		}
-		player.getOutStream().createFrame(85);
+        player.getOutStream().createFrame(85);
 		player.getOutStream().writeByteC(itemY - 8 * player.mapRegionY);
 		player.getOutStream().writeByteC(itemX - 8 * player.mapRegionX);
 		player.getOutStream().createFrame(156);

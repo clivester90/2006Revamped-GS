@@ -2,6 +2,7 @@ package com.rebotted.net.packets.impl;
 
 import com.rebotted.GameConstants;
 import com.rebotted.game.players.Player;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.net.packets.PacketType;
 
 /**
@@ -23,7 +24,7 @@ public class Trade implements PacketType {
 			return;
 		}
 	
-		if (player.getPlayerRights() == 2 && !GameConstants.ADMIN_CAN_TRADE) {
+		if (player.getRights().isOrInherits(Right.ADMINISTRATOR) && !GameConstants.ADMIN_CAN_TRADE) {
 			player.getPacketSender().sendMessage("Trading as an admin has been disabled.");
 			return;
 		}

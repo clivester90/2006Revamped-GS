@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.rebotted.game.players.Player;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.Misc;
 
 public class ReportHandler {
@@ -95,7 +96,7 @@ public class ReportHandler {
 			c.getPacketSender()
 					.sendMessage(
 							"Thank you, your report has been received and will be reviewed.");
-			if (mute == 1 && c.getPlayerRights() > 0) {
+			if (mute == 1 && c.getRights().isNot(Right.PLAYER)) {
 				c.getPacketSender()
 						.sendMessage(
 								"This user is not muted yet! Go to the MODCP on the forums to mute him!");

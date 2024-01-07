@@ -75,7 +75,7 @@ public class PrivateMessaging implements PacketType {
 							if (o != null) {
 								if (PlayerHandler.players[i2].privateChat == 0 || PlayerHandler.players[i2].privateChat == 1 && o.getPlayerAssistant().isInPM(Misc.playerNameToInt64(player.playerName))) {
 									if (friend == sendMessageToFriendId) {
-										o.getPacketSender().sendPM(Misc.playerNameToInt64(player.playerName), player.getPlayerRights(), pmchatText, pmchatTextSize);
+										o.getPacketSender().sendPM(Misc.playerNameToInt64(player.playerName), player.getRights().getPrimary().getValue(), pmchatText, pmchatTextSize);
 										if (player.getPlayerAssistant().isPlayer()) {
 											GameLogger.writeLog(o.playerName, "pmrecieved", player.playerName + " said to " + o.playerName + " " + Misc.textUnpack(pmchatText, packetSize - 8) + "");
 										}

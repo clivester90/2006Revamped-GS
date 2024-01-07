@@ -19,13 +19,10 @@ public abstract class Mode {
     private static final List<Mode> MODES = ImmutableList
             .copyOf(Arrays.asList(
                     new RegularMode(ModeType.STANDARD),
-                    new RogueMode(ModeType.ROGUE)
+                    new HardcoreMode(ModeType.HARDCORE)
                     /*new IronmanMode(ModeType.IRON_MAN),
                     new IronmanMode(ModeType.HC_IRON_MAN),
-                    new RogueIronman(ModeType.ROGUE_IRONMAN),
-                    new RogueIronman(ModeType.ROGUE_HARDCORE_IRONMAN),
-                    new UltimateIronmanMode(ModeType.ULTIMATE_IRON_MAN),
-                    new GroupIronmanMode(ModeType.GROUP_IRONMAN)*/
+                    new UltimateIronmanMode(ModeType.ULTIMATE_IRON_MAN)*/
             ));
 
     /**
@@ -119,7 +116,7 @@ public abstract class Mode {
     }
 
     public boolean is5x() {
-        return type == ModeType.ROGUE || type == ModeType.ROGUE_HARDCORE_IRONMAN || type == ModeType.ROGUE_IRONMAN;
+        return type == ModeType.HARDCORE;
     }
 
 }

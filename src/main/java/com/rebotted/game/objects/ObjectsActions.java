@@ -47,6 +47,7 @@ import com.rebotted.game.objects.impl.UseOther;
 import com.rebotted.game.objects.impl.Webs;
 import com.rebotted.game.players.Player;
 import com.rebotted.game.players.Position;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.Misc;
 import com.rebotted.world.Boundary;
 import com.rebotted.world.clip.Region;
@@ -425,7 +426,7 @@ public class ObjectsActions {
 
             case 2896:
             case 2897:
-                if (player.getPlayerRights() < 3) {
+                if (player.getRights().isNotAdmin()) {
                     player.getPacketSender()
                             .sendMessage("You can't open that!");
                     player.getPlayerAssistant().movePlayer(2728, 3349, 0);
@@ -2838,7 +2839,7 @@ public class ObjectsActions {
 
     public void thirdClickObject(int objectType, int obX, int obY) {
         player.clickObjectType = 0;
-        if (player.getPlayerRights() == 3) {
+        if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
             player.getPacketSender().sendMessage("Object type: " + objectType);
         }
         if (!Region.objectExists(objectType, obX, obY, player.heightLevel)) {
@@ -2884,7 +2885,7 @@ public class ObjectsActions {
 
     public void fourthClickObject(int objectType, int obX, int obY) {
         player.clickObjectType = 0;
-        if (player.getPlayerRights() == 3) {
+        if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
             player.getPacketSender().sendMessage("Object type: " + objectType);
         }
         if (!Region.objectExists(objectType, obX, obY, player.heightLevel)) {

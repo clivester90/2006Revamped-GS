@@ -10,6 +10,7 @@ import com.rebotted.game.content.skills.crafting.Spinning;
 import com.rebotted.game.items.UseItem;
 import com.rebotted.game.items.impl.Fillables;
 import com.rebotted.game.players.Player;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.net.packets.PacketType;
 import com.rebotted.world.Boundary;
 import com.rebotted.world.clip.Region;
@@ -34,7 +35,7 @@ public class ItemOnObject implements PacketType {
 		if (!player.goodDistance(player.objectX, player.objectY, player.absX, player.absY, 3)) {
 			return;
 		}
-		if (player.getPlayerRights() == 3) {
+		if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 			player.getPacketSender().sendMessage(
 					"Object Id:" + objectId + " ObjectX: " + objectX
 							+ " ObjectY: " + objectY + ".");
@@ -44,8 +45,6 @@ public class ItemOnObject implements PacketType {
 			if (itemId == 438 || itemId == 436) {
 				if (player.getItemAssistant().playerHasItem(438) && player.getItemAssistant().playerHasItem(436)) {
 					if (player.tutorialProgress == 19) {
-						player.startAnimation(899);
-						player.getPacketSender().sendSound(352, 100, 1);
 						player.getPacketSender().sendMessage("You smelt the copper and tin together in the furnace.");
 						player.getItemAssistant().deleteItem(438, 1);
 						player.getItemAssistant().deleteItem(436, 1);
@@ -53,14 +52,14 @@ public class ItemOnObject implements PacketType {
 						player.getItemAssistant().addItem(2349, 1);
 						player.getDialogueHandler().sendDialogues(3062, -1);
 					} else if (player.tutorialProgress > 19) {
-						player.startAnimation(899);
-						player.getPacketSender().sendSound(352, 100, 1);
 						player.getPacketSender().sendMessage("You smelt the copper and tin together in the furnace.");
 						player.getItemAssistant().deleteItem(438, 1);
 						player.getItemAssistant().deleteItem(436, 1);
 						player.getPacketSender().sendMessage("You retrieve a bar of bronze.");
 						player.getItemAssistant().addItem(2349, 1);
 					}
+					player.getPacketSender().sendSound(352, 100, 1);
+					player.startAnimation(899);
 				}
 			}
 		break;

@@ -25,6 +25,7 @@ import com.rebotted.game.items.impl.LightSources;
 import com.rebotted.game.items.impl.Greegree.MonkeyData;
 import com.rebotted.game.npcs.Npc;
 import com.rebotted.game.npcs.NpcHandler;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.GameLogger;
 import com.rebotted.util.Misc;
 import com.rebotted.world.Boundary;
@@ -78,7 +79,7 @@ public class PlayerAssistant {
 	}
 	
 	public boolean isPlayer() {
-		return player.getPlayerRights() < 2 || player.getPlayerRights() > 3;
+		return player.getRights().equals(Right.PLAYER);
 	}
 	
 	public void handleObjectRegion(int objectId, int minX, int minY, int maxX, int maxY) {
@@ -860,7 +861,7 @@ public class PlayerAssistant {
 	}
 
 	public void handleEmpty() {
-		if (player.getPlayerRights() != 3) {
+		if (player.getRights().isNotAdmin()) {
 			player.getDialogueHandler().sendOption("Yes, empty my inventory please.", "No, don't empty my inventory.");
 			player.dialogueAction = 855;
 		} else {
@@ -1023,7 +1024,7 @@ public class PlayerAssistant {
 					if (p != null && p.isActive
 							&& Misc.playerNameToInt64(p.playerName) == friend) {
 						Client o = (Client) p;
-						if (player.getPlayerRights() >= 2
+						if (player.getRights().isOrInherits(Right.ADMINISTRATOR)
 								|| p.privateChat == 0
 								|| p.privateChat == 1
 								&& o.getPlayerAssistant()
@@ -1085,7 +1086,7 @@ public class PlayerAssistant {
 		} else if (p.privateChat == 2) {
 			for (long friend : player.friends) {
 				if (friend != 0) {
-					if (l == friend && player.getPlayerRights() < 2) {
+					if (l == friend && player.getRights().isNotAdmin()) {
 						player.getPacketSender().loadPM(l, 0);
 						return;
 					}
@@ -1415,7 +1416,7 @@ public class PlayerAssistant {
 				&& !player.inFightCaves()) { // Fight Caves
 			player.getItemAssistant().resetKeepItems();
 			// admin and bots do not lose/drop items
-			if (player.getPlayerRights() != 3 && !player.isBot) {
+			if (player.getRights().isNotAdmin() && !player.isBot) {
 				if (!player.isSkulled) { // what items to keep
 					player.getItemAssistant().keepItem(0, true);
 					player.getItemAssistant().keepItem(1, true);

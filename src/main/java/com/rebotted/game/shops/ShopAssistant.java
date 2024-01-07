@@ -8,6 +8,7 @@ import com.rebotted.game.items.ItemConstants;
 import com.rebotted.game.items.ItemDefinition;
 import com.rebotted.game.players.Player;
 import com.rebotted.game.players.PlayerHandler;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.GameLogger;
 
 /**
@@ -341,7 +342,7 @@ public class ShopAssistant {
 				return false;
 			}
 		}
-		if (player.getPlayerRights() == 2 && !GameConstants.ADMIN_CAN_SELL_ITEMS) {
+		if (player.getRights().isOrInherits(Right.ADMINISTRATOR) && !GameConstants.ADMIN_CAN_SELL_ITEMS) {
 			player.getPacketSender().sendMessage("Selling items as an admin has been disabled.");
 			return false;
 		}

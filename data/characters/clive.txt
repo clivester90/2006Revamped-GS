@@ -4,9 +4,9 @@ character-password = AOQXBWxFx8mcESwRu5UkwajNg+Bvq+Xn6jviYjK+SAs=
 
 [CHARACTER]
 character-height = 0
-character-posx = 3184
-character-posy = 3438
-character-rights = 3
+character-posx = 3221
+character-posy = 3222
+character-rights = 2
 mode = STANDARD
 last-ip = 127.0.0.1
 isBot = false
@@ -19,7 +19,7 @@ bankPin4 = 0
 hasBankpin = false
 pinRegisteredDeleteDay = 0
 requestPinDelete = false
-lastLoginDate = 20231127
+lastLoginDate = 20240007
 setPin = false
 hasPaid = false
 lostCannon = false
@@ -39,7 +39,7 @@ brightness = 4
 closeTutorialInterface = true
 canWalkTutorial = true
 village = false
-lastThieve = 1703627364205
+lastThieve = 1704671669274
 homeTele = 0
 strongHold = false
 character-energy = 100
@@ -54,15 +54,15 @@ barrowsNpcs = 4	0
 barrowsNpcs = 5	0
 questStages = 0
 SlayerMaster = 0
-music = false	true	false	false	false	false	true	false	false	false	false	true	true	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	true	true	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false
+music = false	true	false	false	false	true	true	false	false	false	false	true	true	true	false	false	false	true	false	false	false	false	false	false	false	false	false	true	true	true	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false	false
 randomActions = 0
 blackMarks = 0
 tutorial-progress = 36
 tutorial-completed = false
 skull-timer = 0
 recoilHits = 0
-lastX = 3184
-lastY = 3438
+lastX = 3221
+lastY = 3222
 lastH = 0
 removedTask0 = -1
 removedTask1 = -1
@@ -165,7 +165,7 @@ character-skill = 13	99	14391160
 character-skill = 14	99	14391160
 character-skill = 15	99	14391160
 character-skill = 16	99	14391160
-character-skill = 17	99	14391160
+character-skill = 17	99	14391760
 character-skill = 18	99	14391160
 character-skill = 19	99	14391160
 character-skill = 20	99	14391160
@@ -175,6 +175,7 @@ character-skill = 23	99	14391160
 character-skill = 24	99	14391160
 
 [ITEMS]
+character-item = 0	996	3
 
 [BANK]
 character-bank = 0	996	42

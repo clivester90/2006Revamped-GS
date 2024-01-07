@@ -8,6 +8,8 @@ import com.rebotted.game.content.gamemode.ModeType;
 import com.rebotted.game.content.gamemode.RegularMode;
 import com.rebotted.game.content.skills.SkillData;
 import com.rebotted.game.dialogues.DialogueBuilder;
+import com.rebotted.game.players.right.Right;
+import com.rebotted.game.players.right.RightGroup;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.mina.common.IoSession;
@@ -99,70 +101,118 @@ public abstract class Player {
 	
 	public byte[] buffer = null;
 	public String lastConnectedFrom;
+	@Getter
 	private Compost compost = new Compost(this);
+	@Getter
 	private Allotments allotment = new Allotments(this);
 	private Flowers flower = new Flowers(this);
 	private Herbs herb = new Herbs(this);
+	@Getter
 	private Hops hops = new Hops(this);
+	@Getter
 	private Bushes bushes = new Bushes(this);
+	@Getter
 	private Seedling seedling = new Seedling(this);
+	@Getter
 	private WoodTrees trees = new WoodTrees(this);
+	@Getter
 	private FruitTree fruitTrees = new FruitTree(this);
+	@Getter
 	private SpecialPlantOne specialPlantOne = new SpecialPlantOne(this);
+	@Getter
 	private SpecialPlantTwo specialPlantTwo = new SpecialPlantTwo(this);
 	private ToolLeprechaun toolLeprechaun = new ToolLeprechaun(this);
 	public Stream inStream = null, outStream = null;
-    public IoSession session;
+    @Getter
+	public IoSession session;
+	@Getter
 	private final ItemAssistant itemAssistant = new ItemAssistant(this);
+	@Getter
 	private final ShopAssistant shopAssistant = new ShopAssistant(this);
+	@Getter
 	private final Trading trading = new Trading(this);
 	private final Dueling duel = new Dueling(this);
+	@Getter
 	private final PlayerAssistant playerAssistant = new PlayerAssistant(this);
+	@Getter
 	private final CombatAssistant combatAssistant = new CombatAssistant(this);
 	private final ObjectsActions actionHandler = new ObjectsActions(this);
+	@Getter
 	private final NpcActions npcs = new NpcActions(this);
 	private final Queue<Packet> queuedPackets = new LinkedList<>();
+	@Getter
 	private final Potions potions = new Potions(this);
 	private final PotionMixing potionMixing = new PotionMixing(this);
+	@Getter
 	private final EmoteHandler emoteHandler = new EmoteHandler(this);
+	@Getter
 	private final SkillInterfaces skillInterfaces = new SkillInterfaces(this);
+	@Getter
 	private final Enchanting enchanting = new Enchanting(this);
 	private final Potatoes potatoes = new Potatoes(this);
 	private final PlayerAction playeraction = new PlayerAction(this);
+	@Getter
 	private final DesertCactus desert = new DesertCactus();
+	@Getter
 	private final Specials specials = new Specials(this);
+	@Getter
 	private final SoundList sound = new SoundList(this);
 	public String creationAddress = "";
 	private final HashMap<String, Object> temporary = new HashMap<>();
+	@Getter
 	private final PlayList playList = new PlayList(this);
+	@Getter
 	private final Agility agility = new Agility(this);
 	private final Runecrafting runecrafting = new Runecrafting(this);
+	@Getter
 	private final Teles teles = new Teles();
+	@Getter
 	private final BankPin bankPin = new BankPin(this);
+	@Getter
 	private final Slayer slayer = new Slayer(this);
+	@Getter
 	private final PacketSender packetSender = new PacketSender(this);
 	private final DialogueHandler dialogues = new DialogueHandler(this);
+	@Getter
 	private final GnomeAgility gnomeStrongHold = new GnomeAgility(this);
+	@Getter
 	private final WildernessAgility wildernessAgility = new WildernessAgility(this);
+	@Getter
 	private final BarbarianAgility barbarianAgility = new BarbarianAgility(this);
+	@Getter
 	private final PyramidAgility pyramidAgility = new PyramidAgility(this);
+	@Getter
 	private final WerewolfAgility werewolfAgility = new WerewolfAgility(this);
+	@Getter
 	private final ApeAtollAgility apeAtollAgility = new ApeAtollAgility(this);
+	@Getter
 	private final Smithing smithing = new Smithing();
 	private final SmithingInterface smithingInterface = new SmithingInterface(this);
+	@Getter
 	private final PrayerData prayer = new PrayerData();
+	@Getter
 	private final LogCuttingInterface fletching = new LogCuttingInterface();
+	@Getter
 	private final ObjectManager objectManager = new ObjectManager();
 	public ArrayList<GameItem> fishingTrawlerReward = new ArrayList<>();
+	@Getter
 	private final RangersGuild rangersGuild = new RangersGuild(this);
-    private GlassBlowing glassBlowing = new GlassBlowing(this);
+    @Getter
+	private GlassBlowing glassBlowing = new GlassBlowing(this);
+	@Getter
 	private Barrows barrows = new Barrows(this);
+	@Getter
 	private Mining mining = new Mining();
+	@Getter
 	private ChallengePlayer challengePlayer = new ChallengePlayer();
 	private DwarfCannon dwarfCannon = new DwarfCannon(this);
+	@Getter
 	private CycleEventContainer currentTask;
+	@Getter
 	private GateHandler gateHandler = new GateHandler();
+	@Getter
 	private SingleGates singleGates = new SingleGates();
+	@Getter
 	private DoubleGates doubleGates = new DoubleGates();
 
 	@Getter
@@ -180,24 +230,10 @@ public abstract class Player {
 		lastDialogueNewSystem = true;
 	}
 	public int lastMainFrameInterface = -1; //Possibly used in future to prevent packet exploits
-	
-	public boolean isPreaching() {
-		return preaching;
-	}
 
-	public void setPreaching(boolean preaching) {
-		this.preaching = preaching;
-	}
-	
+	@Getter
+	@Setter
 	public boolean preaching;
-	
-	public Compost getCompost() {
-		return compost;
-	}
-
-	public Allotments getAllotment() {
-		return allotment;
-	}
 
 	public Flowers getFlowers() {
 		return flower;
@@ -207,125 +243,21 @@ public abstract class Player {
 		return herb;
 	}
 
-	public Hops getHops() {
-		return hops;
-	}
-
-	public Bushes getBushes() {
-		return bushes;
-	}
-
-	public Seedling getSeedling() {
-		return seedling;
-	}
-
-	public WoodTrees getTrees() {
-		return trees;
-	}
-
-	public FruitTree getFruitTrees() {
-		return fruitTrees;
-	}
-
-	public SpecialPlantOne getSpecialPlantOne() {
-		return specialPlantOne;
-	}
-
-	public SpecialPlantTwo getSpecialPlantTwo() {
-		return specialPlantTwo;
-	}
-
 	public ToolLeprechaun getFarmingTools() {
 		return toolLeprechaun;
 	}
-	
 
-	public LogCuttingInterface getFletching() {
-		return fletching;
-	}
-	
-	public SingleGates getSingleGates() {
-		return singleGates;
-	}
-
-	public DoubleGates getDoubleGates() {
-		return doubleGates;
-	}
-
-	public GateHandler getGateHandler() {
-		return gateHandler;
-	}
 
 	public DwarfCannon getCannon() {
 		return dwarfCannon;
-	}
-
-	public ChallengePlayer getChallengePlayer() {
-		return challengePlayer;
-	}
-
-	public Mining getMining() {
-		return mining;
-	}
-
-	public Barrows getBarrows() {
-		return barrows;
-	}
-
-    public GlassBlowing getGlassBlowing() {
-        return glassBlowing;
-    }
-
-	public RangersGuild getRangersGuild() {
-		return rangersGuild;
-	}
-
-	public ObjectManager getObjectManager() {
-		return objectManager;
 	}
 
 	public SmithingInterface getSmithingInt() {
 		return smithingInterface;
 	}
 
-	public Smithing getSmithing() {
-		return smithing;
-	}
-
-	public ApeAtollAgility getApeAtollAgility() {
-		return apeAtollAgility;
-	}
-
-	public WerewolfAgility getWerewolfAgility() {
-		return werewolfAgility;
-	}
-
-	public PyramidAgility getPyramidAgility() {
-		return pyramidAgility;
-	}
-
-	public BarbarianAgility getBarbarianAgility() {
-		return barbarianAgility;
-	}
-
-	public WildernessAgility getWildernessAgility() {
-		return wildernessAgility;
-	}
-
-	public GnomeAgility getGnomeStrongHold() {
-		return gnomeStrongHold;
-	}
-
 	public DialogueHandler getDialogueHandler() {
 		return dialogues;
-	}
-
-	public PacketSender getPacketSender() {
-		return packetSender;
-	}
-
-	public SoundList getSound() {
-		return sound;
 	}
 
 	public Object getTemporary(String name) {
@@ -336,56 +268,16 @@ public abstract class Player {
 		temporary.put(name, value);
 	}
 
-	public PlayList getPlayList() {
-		return playList;
-	}
-
-	public Specials getSpecials() {
-		return specials;
-	}
-
 	public Potatoes getPTS() {
 		return potatoes;
-	}
-
-	public EmoteHandler getEmoteHandler() {
-		return emoteHandler;
-	}
-
-	public SkillInterfaces getSkillInterfaces() {
-		return skillInterfaces;
-	}
-
-	public Enchanting getEnchanting() {
-		return enchanting;
 	}
 
 	public PlayerAction getPlayerAction() {
 		return playeraction;
 	}
 
-	public DesertCactus getDesert() {
-		return desert;
-	}
-
-	public Agility getAgility() {
-		return agility;
-	}
-
 	public Runecrafting getRC() {
 		return runecrafting;
-	}
-
-	public Slayer getSlayer() {
-		return slayer;
-	}
-
-	public Teles getTeles() {
-		return teles;
-	}
-
-	public BankPin getBankPin() {
-		return bankPin;
 	}
 
 	public synchronized Stream getInStream() {
@@ -404,48 +296,12 @@ public abstract class Player {
 		return outStream;
 	}
 
-	public ItemAssistant getItemAssistant() {
-		return itemAssistant;
-	}
-
-	public PlayerAssistant getPlayerAssistant() {
-		return playerAssistant;
-	}
-
-	public ShopAssistant getShopAssistant() {
-		return shopAssistant;
-	}
-
-	public Trading getTrading() {
-		return trading;
-	}
-
 	public Dueling getDueling() {
 		return duel;
 	}
 
-	public CombatAssistant getCombatAssistant() {
-		return combatAssistant;
-	}
-
-	public PrayerData getPrayer() {
-		return prayer;
-	}
-
 	public ObjectsActions getObjects() {
 		return actionHandler;
-	}
-
-	public NpcActions getNpcs() {
-		return npcs;
-	}
-
-	public IoSession getSession() {
-		return session;
-	}
-
-	public Potions getPotions() {
-		return potions;
 	}
 
 	public PotionMixing getPotMixing() {
@@ -456,16 +312,10 @@ public abstract class Player {
 	private Inventory inventory = new Inventory(this);
 	
 	
+	@Getter
+	@Setter
 	private int tempInteger;
 	public boolean tempBoolean;
-	
-	public void setTempInteger(int tempInteger) {
-		this.tempInteger = tempInteger;
-	}
-
-	public int getTempInteger() {
-		return tempInteger;
-	}
 
 	public int totalShopItems;
 	
@@ -473,25 +323,15 @@ public abstract class Player {
 		return (stop == stopPlayerPacket);
 	}
 	
+	@Getter
+	@Setter
 	public long objectDelay;
-	
-	public long getObjectDelay() {
-		return (objectDelay);
-	}
-	
-	public void setObjectDelay(long delay) {
-		objectDelay = delay;
-	}
 
 	public boolean isSnowy;
 
 	public void startCurrentTask(int ticksBetweenExecution, CycleEvent event) {
 		endCurrentTask();
 		currentTask = CycleEventHandler.getSingleton().addEvent(this, event, ticksBetweenExecution);
-	}
-
-	public CycleEventContainer getCurrentTask() {
-		return currentTask;
 	}
 
 	public void endCurrentTask() {
@@ -650,14 +490,6 @@ public abstract class Player {
 		}
 		if (hasNpc) {
 			getSummon().pickUpPet(this, summonId);
-		}
-
-		if(GameEngine.ersSecret  != null && !GameEngine.ersSecret.equals("") && this.getPlayerRights() < 2) {
-			boolean debugMessage = false;
-			System.out.println("Updating highscores for " + this.playerName + "!");
-			Hiscores.update(GameEngine.ersSecret, "Normal Mode", this.playerName, this.getPlayerRights(), this.playerXP, debugMessage);
-		} else {
-			System.out.println("EverythingRS API Disabled, highscores not saved!");
 		}
 
 		Misc.println("[DEREGISTERED]: " + playerName);
@@ -1273,38 +1105,25 @@ public abstract class Player {
 
 	/**
 	 * The option the player clicked
+	 * -- SETTER --
+	 *  Sets the option clicked
+	 *
+	 *
+	 * -- GETTER --
+	 *
+	 @param i
+	 *            the option clicked
+	  * @return the option clicked
+
 	 */
 
+	@Getter
+	@Setter
 	private int optionClicked = -1;
 
-	/**
-	 * @return the option clicked
-	 */
-
-	public int getOptionClicked() {
-		return optionClicked;
-	}
-
-	/**
-	 * Sets the option clicked
-	 *
-	 * @param i
-	 *            the option clicked
-	 */
-
-	public void setOptionClicked(int i) {
-		optionClicked = i;
-	}
-
+	@Getter
+	@Setter
 	public String statedInterface = "";
-
-	public String getStatedInterface() {
-		return statedInterface;
-	}
-
-	public void setStatedInterface(String statedInterface) {
-		this.statedInterface = statedInterface;
-	}
 
 	public String slayerMaster;
 
@@ -1335,16 +1154,10 @@ public abstract class Player {
 	public boolean hideYell;
 
 
+	@Getter
+	@Setter
 	private Npc specialTarget = null;
-	
-	public void setSpecialTarget(Npc target) {
-		this.specialTarget = target;
-	}
-	
-	public Npc getSpecialTarget() {
-		return specialTarget;
-	}
-		
+
 	public int miningAxe = -1, woodcuttingAxe = -1;
 
 	public boolean initialized, musicOn = true, luthas,
@@ -1459,20 +1272,17 @@ public abstract class Player {
 	}
 
 	/**
-	 * @param randomGrave
+	 * -- SETTER --
+	 *
+	 *
+	 * -- GETTER --
+	 *
+	 @param randomGrave
 	 *            the randomGrave to set
+	  * @return the randomGrave
 	 */
-	public void setRandomGrave(int randomGrave) {
-		this.randomGrave = randomGrave;
-	}
-
-	/**
-	 * @return the randomGrave
-	 */
-	public int getRandomGrave() {
-		return randomGrave;
-	}
-
+	@Getter
+	@Setter
 	private int randomGrave;
 
 	public void setBarrowsNpcDead(int index, boolean dead) {
@@ -1482,17 +1292,16 @@ public abstract class Player {
 	/**
 	 * @return the barrowsNpcDead
 	 */
-	public boolean[] getBarrowsNpcDead() {
-		return barrowsNpcDead;
-	}
-
-	/**
-	 * @return the barrowsNpcDead
-	 */
 	public boolean getBarrowsNpcDead(int id) {
 		return barrowsNpcDead[id];
 	}
 
+	/**
+	 * -- GETTER --
+	 *
+	 * @return the barrowsNpcDead
+	 */
+	@Getter
 	private final boolean[] barrowsNpcDead = new boolean[6];
 
 	public int ectofuntusBoneUsed;
@@ -1671,15 +1480,12 @@ public abstract class Player {
 	public int XremoveSlot, XinterfaceID, XremoveID, Xamount;
 
 	public boolean isMining;
+	@Setter
 	public boolean hasThievedStall;
 	public boolean stopFiremaking, pickedUpFiremakingLog, logLit;
 
 	public boolean hasThievedStall() {
 		return hasThievedStall;
-	}
-
-	public void setHasThievedStall(boolean hasThievedStall) {
-		this.hasThievedStall = hasThievedStall;
 	}
 
 	public boolean antiFirePot;
@@ -1829,9 +1635,20 @@ public abstract class Player {
 	public String playerName = null;
 	public String playerName2 = null;
 	public String playerPass = null;
-	@Getter
+
 	@Setter
-	public int playerRights;
+	protected RightGroup rights;
+	/**
+	 * Retrieves the rights for this player.
+	 *
+	 * @return the rights
+	 */
+	public RightGroup getRights() {
+		if (rights == null) {
+			rights = new RightGroup(this, Right.PLAYER);
+		}
+		return rights;
+	}
 	public PlayerHandler handler = null;
 	public int[] playerItems = new int[28];
 	public int[] playerItemsN = new int[28];
@@ -1882,7 +1699,7 @@ public abstract class Player {
 
 	public Player(int _playerId) {
 		playerId = _playerId;
-		playerRights = 0;
+		rights = new RightGroup(this, Right.PLAYER);
 
 		Arrays.fill(playerItems, 0);
 		Arrays.fill(playerItemsN, 0);
@@ -1996,6 +1813,7 @@ public abstract class Player {
 		return (int) Math.sqrt(Math.pow(absX - pointX, 2) + Math.pow(absY - pointY, 2));
 	}
 
+	@Getter
 	public int mapRegionX, mapRegionY;
 	public int absX;
 
@@ -2007,6 +1825,7 @@ public abstract class Player {
 	public int playerSEW = 0x333;
 	public int playerSER = 0x334;
 
+	@Setter
 	public boolean updateRequired = true;
 
 	public final int walkingQueueSize = 50;
@@ -2238,12 +2057,12 @@ public abstract class Player {
 						str.writeBits(1, 0);
 					}
 				}
-				if (playerEnergy > 0 && playerRights < 2) {
+				if (playerEnergy > 0 && rights.isNotAdmin()) {
 					// calculations from https://oldschool.runescape.wiki/w/Energy
 					playerEnergy -= 0.64;
 					if (weight > 0.0)
 						playerEnergy -= Math.min(weight, 64) / 100;
-				} else if (playerRights >= 2) {
+				} else if (rights.isOrInherits(Right.ADMINISTRATOR)) {
 					playerEnergy = 100;
 					isRunning2 = true;
 				} else if (playerEnergy <= 0) {
@@ -2364,10 +2183,18 @@ public abstract class Player {
 	public int headIcon = -1, bountyIcon = 0;
 
 	public int DirectionCount = 0;
+	@Getter
+	@Setter
 	public boolean appearanceUpdateRequired = true;
+	@Setter
 	public int hitDiff2;
+	@Getter
+	@Setter
 	public int hitDiff = 0;
+	@Setter
 	public boolean hitUpdateRequired2;
+	@Getter
+	@Setter
 	public boolean hitUpdateRequired = false;
 	public boolean isDead = false;
 
@@ -2473,6 +2300,11 @@ public abstract class Player {
 		playerProps.writeQWord(Misc.playerNameToInt64(playerName));
 		combatLevel = calculateCombatLevel();
 		playerProps.writeByte(combatLevel); // combat level
+		/*Set<Right> rightsSet = rights.getSet();
+		str.writeByte(rightsSet.size());
+		for (Right right : rightsSet) {
+			str.writeByte(right.ordinal());
+		}*/
 		playerProps.writeWord(0);
 		str.writeByteC(playerProps.currentOffset);
 		str.writeBytes(playerProps.buffer, playerProps.currentOffset, 0);
@@ -2516,16 +2348,26 @@ public abstract class Player {
 		return 99;
 	}
 
+	@Getter
+	@Setter
 	private boolean chatTextUpdateRequired = false;
+	@Getter
+	@Setter
 	private byte[] chatText = new byte[4096];
+	@Getter
+	@Setter
 	private byte chatTextSize = 0;
+	@Getter
+	@Setter
 	private int chatTextColor = 0;
+	@Getter
+	@Setter
 	private int chatTextEffects = 0;
 
 	protected void appendPlayerChatText(Stream str) {
 		if (str == null) return;
 		str.writeWordBigEndian(((getChatTextColor() & 0xFF) << 8) + (getChatTextEffects() & 0xFF));
-		str.writeByte(playerRights);
+		str.writeByte(rights.getPrimary().getValue());
 		str.writeByteC(getChatTextSize());
 		str.writeBytes_reverse(getChatText(), getChatTextSize(), 0);
 	}
@@ -2698,11 +2540,11 @@ public abstract class Player {
 		if (FocusPointX != -1) {
 			updateMask |= 2;
 		}
-		if (isHitUpdateRequired()) {
+		if (getHitUpdateRequired()) {
 			updateMask |= 0x20;
 		}
 
-		if (hitUpdateRequired2) {
+		if (getHitUpdateRequired2()) {
 			updateMask |= 0x200;
 		}
 
@@ -2737,10 +2579,10 @@ public abstract class Player {
 		if (FocusPointX != -1) {
 			appendSetFocusDestination(str);
 		}
-		if (isHitUpdateRequired()) {
+		if (getHitUpdateRequired()) {
 			appendHitUpdate(str);
 		}
-		if (hitUpdateRequired2) {
+		if (getHitUpdateRequired2()) {
 			appendHitUpdate2(str);
 		}
 	}
@@ -2771,9 +2613,15 @@ public abstract class Player {
 		getNextPlayerMovement();
 	}
 
+	@Getter
+	@Setter
 	private int[] newWalkCmdX = new int[walkingQueueSize];
+	@Getter
+	@Setter
 	private int[] newWalkCmdY = new int[walkingQueueSize];
 	public int newWalkCmdSteps = 0;
+	@Getter
+	@Setter
 	private boolean newWalkCmdIsRunning = false;
 	protected int[] travelBackX = new int[walkingQueueSize];
 	protected int[] travelBackY = new int[walkingQueueSize];
@@ -2889,14 +2737,6 @@ public abstract class Player {
 		}
 	}
 
-	public int getMapRegionX() {
-		return mapRegionX;
-	}
-
-	public int getMapRegionY() {
-		return mapRegionY;
-	}
-
 	public int getX() {
 		return absX;
 	}
@@ -2913,108 +2753,12 @@ public abstract class Player {
 		return playerId;
 	}
 
-	public void setHitDiff(int hitDiff) {
-		this.hitDiff = hitDiff;
-	}
-
-	public void setHitDiff2(int hitDiff2) {
-		this.hitDiff2 = hitDiff2;
-	}
-
-	public int getHitDiff() {
-		return hitDiff;
-	}
-
-	public void setHitUpdateRequired(boolean hitUpdateRequired) {
-		this.hitUpdateRequired = hitUpdateRequired;
-	}
-
-	public void setHitUpdateRequired2(boolean hitUpdateRequired2) {
-		this.hitUpdateRequired2 = hitUpdateRequired2;
-	}
-
-	public boolean isHitUpdateRequired() {
-		return hitUpdateRequired;
-	}
-
 	public boolean getHitUpdateRequired() {
 		return hitUpdateRequired;
 	}
 
 	public boolean getHitUpdateRequired2() {
 		return hitUpdateRequired2;
-	}
-
-	public void setAppearanceUpdateRequired(boolean appearanceUpdateRequired) {
-		this.appearanceUpdateRequired = appearanceUpdateRequired;
-	}
-
-	public boolean isAppearanceUpdateRequired() {
-		return appearanceUpdateRequired;
-	}
-
-	public void setChatTextEffects(int chatTextEffects) {
-		this.chatTextEffects = chatTextEffects;
-	}
-
-	public int getChatTextEffects() {
-		return chatTextEffects;
-	}
-
-	public void setChatTextSize(byte chatTextSize) {
-		this.chatTextSize = chatTextSize;
-	}
-
-	public byte getChatTextSize() {
-		return chatTextSize;
-	}
-
-	public void setChatTextUpdateRequired(boolean chatTextUpdateRequired) {
-		this.chatTextUpdateRequired = chatTextUpdateRequired;
-	}
-
-	public boolean isChatTextUpdateRequired() {
-		return chatTextUpdateRequired;
-	}
-
-	public void setChatText(byte[] chatText) {
-		this.chatText = chatText;
-	}
-
-	public byte[] getChatText() {
-		return chatText;
-	}
-
-	public void setChatTextColor(int chatTextColor) {
-		this.chatTextColor = chatTextColor;
-	}
-
-	public int getChatTextColor() {
-		return chatTextColor;
-	}
-
-	public void setNewWalkCmdX(int[] newWalkCmdX) {
-		this.newWalkCmdX = newWalkCmdX;
-	}
-
-	public int[] getNewWalkCmdX() {
-		return newWalkCmdX;
-	}
-
-	public void setNewWalkCmdY(int[] newWalkCmdY) {
-		this.newWalkCmdY = newWalkCmdY;
-	}
-
-	public int[] getNewWalkCmdY() {
-		return newWalkCmdY;
-	}
-
-	public void setNewWalkCmdIsRunning(boolean newWalkCmdIsRunning) {
-		this.newWalkCmdIsRunning = newWalkCmdIsRunning;
-	}
-
-	public boolean isNewWalkCmdIsRunning() {
-		return newWalkCmdIsRunning;
 	}
 
 	public void setInStreamDecryption(ISAACRandomGen inStreamDecryption) {

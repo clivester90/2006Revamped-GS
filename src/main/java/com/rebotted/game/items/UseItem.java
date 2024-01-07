@@ -26,6 +26,7 @@ import com.rebotted.game.objects.impl.CrystalChest;
 import com.rebotted.game.objects.impl.FlourMill;
 import com.rebotted.game.objects.impl.Webs;
 import com.rebotted.game.players.Player;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.Misc;
 
 /**
@@ -109,7 +110,7 @@ public class UseItem {
 			break;
 
 		default:
-			if (c.getPlayerRights() == 3) {
+			if (c.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 				Misc.println("Player At Object id: " + objectID + " objectX: "
 						+ objectX + " objectY: " + objectY + " with Item id: "
 						+ itemId);
@@ -381,14 +382,14 @@ public class UseItem {
 			}
 		}
 
-		if (player.getPlayerRights() == 3) {
+		if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 			Misc.println("Player used Item id: " + itemUsed
 					+ " with Item id: " + useWith);
 		}
 	}
 
 	public static void itemOnNpc(final Player c, final int itemId, final int npcId, final int slot) {
-		if (c.getPlayerRights() == 3) {
+		if (c.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 			Misc.println("Player used Item id: " + itemId
 					+ " with Npc id: " + npcId + " With Slot : " + slot);
 		}

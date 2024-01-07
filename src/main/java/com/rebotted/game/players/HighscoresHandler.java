@@ -1,5 +1,7 @@
 package com.rebotted.game.players;
 
+import com.rebotted.game.players.right.Right;
+
 import static com.rebotted.game.players.PlayerSave.loadPlayerInfo;
 
 import java.io.File;
@@ -16,7 +18,7 @@ public class HighscoresHandler {
             Client player = new Client(null, -1);
             player.playerName = child.getName().split("\\.")[0];
             loadPlayerInfo(player, child.getName().split("\\.")[0], "", false);
-            if (player.getPlayerRights() >= 2 || // admin or dev
+            if (player.getRights().isOrInherits(Right.ADMINISTRATOR) || // admin or dev
                 player.isBot || player.playerName.startsWith("♥")) { // ignore bots
                 continue;
             }

@@ -10,6 +10,7 @@ import com.rebotted.game.items.GameItem;
 import com.rebotted.game.items.ItemData;
 import com.rebotted.game.items.ItemAssistant;
 import com.rebotted.game.items.ItemConstants;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.GameLogger;
 import com.rebotted.util.Misc;
 
@@ -89,15 +90,13 @@ public class Trading {
 		resetOTItems(3416);
 		String out = o.playerName;
 
-		if (o.getPlayerRights() == 1) {
+		if (o.getRights().equals(Right.MODERATOR)) {
 			out = "@cr1@" + out;
-		} else if (o.getPlayerRights() == 2) {
+		} else if (o.getRights().equals(Right.ADMINISTRATOR)) {
 			out = "@cr2@" + out;
 		}
 		player.getPacketSender().sendString(
-				"Trading with: " + o.playerName + " who has @gre@"
-						+ o.getItemAssistant().freeSlots() + " free slots",
-				3417);
+				"Trading with: " + o.playerName + " who has @gre@" + o.getItemAssistant().freeSlots() + " free slots", 3417);
 		player.getPacketSender().sendString("", 3431);
 		player.getPacketSender().sendString(
 				"Are you sure you want to make this trade?", 3535);
@@ -246,7 +245,7 @@ public class Trading {
 		}
 
 		for (int i : ItemConstants.ITEM_TRADEABLE) {
-			if (i == itemID && player.getPlayerRights() < 3) {
+			if (i == itemID && player.getRights().isNotAdmin()) {
 				player.getPacketSender().sendMessage("You can't trade this item.");
 				return false;
 			}

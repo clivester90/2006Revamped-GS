@@ -22,7 +22,7 @@ public class Holidays {
 				if (player != null) {
 					Client p1 = (Client) player;
 					if (holiday.getHoliday()) {
-						if (p1.getPlayerRights() > 2) {
+						if (p1.getRights().isNotAdmin()) {
 							p1.getPacketSender().sendMessage("Currently dropping " + HolidayDrops.dropAmount() + " items.");
 						}
 						p1.getPacketSender().sendMessage("The " + holiday.getName() + " event has started, goodluck!");

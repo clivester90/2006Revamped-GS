@@ -6,6 +6,7 @@ import com.rebotted.GameEngine;
 import com.rebotted.game.content.minigames.castlewars.CastleWars;
 import com.rebotted.game.npcs.Npc;
 import com.rebotted.game.npcs.NpcHandler;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.util.Misc;
 import com.rebotted.util.Stream;
 import com.rebotted.world.GlobalDropsHandler;
@@ -58,7 +59,7 @@ public class PlayerHandler {
 		int count = 0;
 		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
 			if (players[i] != null) {
-				if (players[i].getPlayerRights() >= 1) {
+				if (players[i].getRights().isOrInherits(Right.MODERATOR)) {
 					count++;
 				}
 			}
