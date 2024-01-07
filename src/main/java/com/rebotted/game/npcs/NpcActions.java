@@ -10,6 +10,7 @@ import com.rebotted.game.dialogues.impl.ManAndWoman;
 import com.rebotted.game.npcs.impl.Pets;
 import com.rebotted.game.players.Player;
 import com.rebotted.game.players.PlayerAssistant;
+import com.rebotted.game.players.right.Right;
 import com.rebotted.game.shops.ShopAssistant;
 import com.rebotted.game.shops.Shops;
 import com.rebotted.util.Misc;
@@ -27,7 +28,7 @@ public class NpcActions {
 		player.rememberNpcIndex = player.npcClickIndex;
 		player.npcClickIndex = 0;
 
-		if(player.getPlayerRights() == 3) {
+		if(player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 			player.getPacketSender().sendMessage("You have clicked NPC: " + npcType + " with the first option.");
 		}
 
@@ -47,7 +48,8 @@ public class NpcActions {
 		switch (npcType) {
 
 			case 1:
-				player.start(new ManAndWoman(player));
+			case 3:
+				player.start(new ManAndWoman(player, NpcHandler.npcs[npcType]));
 				break;
 
 		case 389 : //thormac
@@ -236,7 +238,7 @@ public class NpcActions {
 			break;
 
 		case 844:
-			if (player.runeMist < 4 && player.getPlayerRights() <= 1) {
+			if (player.runeMist < 4) {
 				player.getDialogueHandler().sendStatement("You need to beat rune mysteries first to do this.");
 				player.nextChat = 0;
 				return;
@@ -1008,7 +1010,7 @@ public class NpcActions {
 		player.rememberNpcIndex = player.npcClickIndex;
 		player.npcClickIndex = 0;
 
-		if(player.getPlayerRights() == 3) {
+		if(player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 			player.getPacketSender().sendMessage("You have clicked NPC: " + npcType + " with the second option.");
 		}
 
@@ -1075,7 +1077,7 @@ public class NpcActions {
 			break;
 
 		case 300:
-			if (player.runeMist < 4 && player.getPlayerRights() <= 1) {
+			if (player.runeMist < 4) {
 				player.getDialogueHandler().sendStatement("You need to beat rune mysteries first to do this.");
 				player.nextChat = 0;
 				return;
@@ -1118,7 +1120,7 @@ public class NpcActions {
 
 		case 844:
 		case 462:
-			if (player.runeMist < 4 && player.getPlayerRights() <= 1) {
+			if (player.runeMist < 4) {
 				player.getDialogueHandler().sendStatement("You need to beat rune mysteries first to do this.");
 				player.nextChat = 0;
 				return;
@@ -1168,7 +1170,7 @@ public class NpcActions {
 		player.rememberNpcIndex = player.npcClickIndex;
 		player.npcClickIndex = 0;
 
-		if(player.getPlayerRights() == 3) {
+		if(player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 			player.getPacketSender().sendMessage("You have clicked NPC: " + npcType + " with the third option.");
 		}
 
@@ -1216,7 +1218,7 @@ public class NpcActions {
 			}
 			break;
 		case 553:
-			if (player.runeMist < 4 && player.getPlayerRights() <= 1) {
+			if (player.runeMist < 4) {
 				player.getDialogueHandler().sendStatement("You need to beat rune mysteries first to do this.");
 				return;
 			}
@@ -1233,7 +1235,7 @@ public class NpcActions {
 			break;
 
 		default:
-			if (player.getPlayerRights() == 3) {
+			if (player.getRights().isOrInherits(Right.ADMINISTRATOR)) {
 				Misc.println("Third Click NPC : " + npcType);
 			}
 			break;
