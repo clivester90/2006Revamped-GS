@@ -27,11 +27,11 @@ public class RestlessGhost {
 			client.getPacketSender().sendString(
 					"@str@I've talked to Father Aereck", 8147);
 			client.getPacketSender().sendString(
-					"I should speak to Father Urhey", 8148);
+					"I should speak to Father Urhney", 8148);
 		} else if (client.restGhost == 2) {
 			client.getPacketSender().sendString("Restless Ghost", 8144);
 			client.getPacketSender().sendString(
-					"@str@I've talked Father Urhey", 8147);
+					"@str@I've talked Father Urhney", 8147);
 			client.getPacketSender().sendString("@str@He gave me an amulet",
 					8148);
 			client.getPacketSender().sendString(
