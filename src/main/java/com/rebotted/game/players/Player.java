@@ -309,7 +309,7 @@ public abstract class Player {
 	}
 
 	@Getter
-	private Inventory inventory = new Inventory(this);
+	public Inventory inventory = new Inventory(this);
 	
 	
 	@Getter

@@ -6,9 +6,7 @@ import com.rebotted.game.content.skills.core.Fishing;
 import com.rebotted.game.content.skills.crafting.Tanning;
 import com.rebotted.game.content.skills.thieving.Pickpocket;
 import com.rebotted.game.content.traveling.Sailing;
-import com.rebotted.game.dialogues.impl.FatherAereck;
-import com.rebotted.game.dialogues.impl.LumbridgeGuide;
-import com.rebotted.game.dialogues.impl.ManAndWoman;
+import com.rebotted.game.dialogues.impl.*;
 import com.rebotted.game.npcs.impl.Pets;
 import com.rebotted.game.players.Player;
 import com.rebotted.game.players.PlayerAssistant;
@@ -65,15 +63,11 @@ public class NpcActions {
 				break;
 
 			case 457:
-				if (player.restGhost == 2) {
-					player.getDialogueHandler().sendDialogues(371, npcType);
-				}
+				player.start(new RestlessGhost(player));
 				break;
 
 			case 458:
-				if (player.restGhost == 1) {
-					player.getDialogueHandler().sendDialogues(352, npcType);
-				}
+				player.start(new FatherUrhney(player));
 				break;
 
 		case 389 : //thormac

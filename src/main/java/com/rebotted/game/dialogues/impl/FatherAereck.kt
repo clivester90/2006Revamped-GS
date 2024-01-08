@@ -12,17 +12,28 @@ class FatherAereck(player: Player?) : DialogueBuilder(player) {
         if (player != null) {
             when (player.restGhost) {
                 5 -> {
-                    restlessGhostFinished()
+                    setNpcId(456).option(DialogueOption("I'm looking for a quest!") {
+                        npc(
+                            DialogueExpression.HAPPY, "Thank you for getting rid of that awful ghost for me!",
+                            "May Saradomin always smile upon you!"
+                        )
+                            .player(DialogueExpression.HAPPY, "I'm looking for a new quest!")
+                            .npc(DialogueExpression.HAPPY, "Sorry, I only had the one quest.")
+
+
+                    })
                 }
 
                 in 1.. 4 -> {
                     setNpcId(456)
-                        .npc(
-                            DialogueExpression.HAPPY,
-                            "I hope the hunt for the ghost is going well,",
-                            "please feel free to explore the church."
-                        )
-                        .player("Thank you, we'll soon get them.")
+                        .npc(DialogueExpression.HAPPY, "Have you got rid of the ghost yet?")
+                        .player("I've found out that the ghost's corpse has",
+                            "lost its skull. If I can find the skull,",
+                            "the ghost should leave.")
+                        .npc(DialogueExpression.HAPPY, "That WOULD explain it. Hmmmmm. Well, I",
+                            "haven't seen any skulls.")
+                        .player(DialogueExpression.HAPPY, "Yes, I think a warlock has stolen it.")
+                        .npc("I hate warlocks. Ah well, good luck!")
                 }
 
                 else -> {
@@ -159,19 +170,6 @@ class FatherAereck(player: Player?) : DialogueBuilder(player) {
                 }))
 
 
-    }
-
-    private fun restlessGhostFinished() {
-        player.start(DialogueBuilder(player).setNpcId(456).option(DialogueOption("I'm looking for a quest!") {
-                npc(
-                    DialogueExpression.HAPPY, "Thank you for getting rid of that awful ghost for me!",
-                    "May Saradomin always smile upon you!"
-                )
-                    .player(DialogueExpression.HAPPY, "I'm looking for a new quest!")
-                    .npc(DialogueExpression.HAPPY, "Sorry, I only had the one quest.")
-
-
-            }))
     }
 
 }
