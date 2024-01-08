@@ -6,6 +6,7 @@ import com.rebotted.game.content.skills.core.Fishing;
 import com.rebotted.game.content.skills.crafting.Tanning;
 import com.rebotted.game.content.skills.thieving.Pickpocket;
 import com.rebotted.game.content.traveling.Sailing;
+import com.rebotted.game.dialogues.impl.FatherAereck;
 import com.rebotted.game.dialogues.impl.ManAndWoman;
 import com.rebotted.game.npcs.impl.Pets;
 import com.rebotted.game.players.Player;
@@ -48,8 +49,29 @@ public class NpcActions {
 		switch (npcType) {
 
 			case 1:
+			case 2:
 			case 3:
+			case 4:
 				player.start(new ManAndWoman(player, NpcHandler.npcs[npcType]));
+				break;
+
+			case 456:
+				if (player.restGhost == 0) {
+					player.start(new FatherAereck(player));
+					//player.getDialogueHandler().sendDialogues(338, 456);
+				}
+				break;
+
+			case 457:
+				if (player.restGhost == 2) {
+					player.getDialogueHandler().sendDialogues(371, npcType);
+				}
+				break;
+
+			case 458:
+				if (player.restGhost == 1) {
+					player.getDialogueHandler().sendDialogues(352, npcType);
+				}
 				break;
 
 		case 389 : //thormac
@@ -500,24 +522,6 @@ public class NpcActions {
 				player.getDialogueHandler().sendDialogues(531, npcType);
 			} else {
 				player.getDialogueHandler().sendStatement("I'm not on this step yet.");
-			}
-			break;
-
-		case 456:
-			if (player.restGhost == 0) {
-				player.getDialogueHandler().sendDialogues(338, 456);
-			}
-			break;
-
-		case 457:
-			if (player.restGhost == 2) {
-				player.getDialogueHandler().sendDialogues(371, npcType);
-			}
-			break;
-
-		case 458:
-			if (player.restGhost == 1) {
-				player.getDialogueHandler().sendDialogues(352, npcType);
 			}
 			break;
 

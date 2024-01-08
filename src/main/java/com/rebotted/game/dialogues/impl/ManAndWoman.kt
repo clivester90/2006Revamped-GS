@@ -93,7 +93,7 @@ class ManAndWoman(player: Player?, npc: Npc) : DialogueBuilder(player) {
             8 -> {
                 setNpcId(npc.npcId)
                     .player(DialogueExpression.HAPPY, "Hello, how's it going?")
-                    .npc(DialogueExpression.CALM, "I think we need a new king. The one we've got isn't very good.")
+                    .npc(DialogueExpression.CALM, "I think we need a new king. The one", "we've got isn't very good.")
             }
 
             9 -> {
