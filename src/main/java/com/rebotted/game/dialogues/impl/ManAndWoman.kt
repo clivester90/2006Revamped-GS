@@ -29,25 +29,25 @@ class ManAndWoman(player: Player?, npc: Npc) : DialogueBuilder(player) {
                     .npc(DialogueExpression.CALM_TALK, "How can I help you?")
                     .option(
                         DialogueOption("Do you want to trade?") {
-                            player(DialogueExpression.HAPPY, "Do you want to trade?")
+                            player?.start(DialogueBuilder(getPlayer()).setNpcId(npc.npcId).player(DialogueExpression.HAPPY, "Do you want to trade?")
                                 .npc(
                                     DialogueExpression.CALM_TALK,
                                     "No, I have nothing I wish to get rid of. If you want to do some trading, " +
                                             "there are plenty of shops",
                                     "and market stalls around though."
-                                )
+                                ))
                         },
                         DialogueOption("I'm in search of a quest.") {
-                            player(DialogueExpression.HAPPY, "I'm in search of a quest.")
-                                .npc(DialogueExpression.CALM_TALK, "I'm sorry I can't help you there.")
+                            player?.start(DialogueBuilder(getPlayer()).setNpcId(npc.npcId).player(DialogueExpression.HAPPY, "I'm in search of a quest.")
+                                .npc(DialogueExpression.CALM_TALK, "I'm sorry I can't help you there."))
                         },
                         DialogueOption("I'm in search of enemies to kill.") {
-                            player(DialogueExpression.HAPPY, "I'm in search of enemies to kill.")
+                            player?.start(DialogueBuilder(getPlayer()).setNpcId(npc.npcId).player(DialogueExpression.HAPPY, "I'm in search of enemies to kill.")
                                 .npc(
                                     DialogueExpression.CALM_TALK,
                                     "I've heard there are many fearsome creatures that",
                                     "dwell under the ground..."
-                                )
+                                ))
                         })
             }
 

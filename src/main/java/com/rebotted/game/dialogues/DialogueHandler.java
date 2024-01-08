@@ -6444,23 +6444,8 @@ public class DialogueHandler {
 				player.nextChat = 0;
 				break;
 
-			case 3214:
-				sendPlayerChat("How's it going?");
-				player.nextChat = 3215;
-				break;
-
-			case 3215:
-				if (Misc.random(1) == 1) {
-					sendNpcChat1("I'm good, thank you for asking.", 2238, "Donie");
-					player.nextChat = 0;
-				} else {
-					sendNpcChat1("I feel great, thanks for asking.", 2238, "Donie");
-					player.nextChat = 0;
-				}
-				break;
-
 			case 3216://23
-				sendStartInfo("As you collect your reward, you notice an aweful smell.", "You look below the remaining debris to the bottom of the", "chest. You see a trapdoor. You open it and it leads to a ladder", "that goes down a long ways.", "Continue?");
+				sendStartInfo("As you collect your reward, you notice an awful smell.", "You look below the remaining debris to the bottom of the", "chest. You see a trapdoor. You open it and it leads to a ladder", "that goes down a long ways.", "Continue?");
 				break;
 
 			case 3217://24

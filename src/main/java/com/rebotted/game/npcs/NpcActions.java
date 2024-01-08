@@ -70,6 +70,10 @@ public class NpcActions {
 				player.start(new FatherUrhney(player));
 				break;
 
+			case 2238:
+				player.start(new DonieDialogue(player));
+				break;
+
 		case 389 : //thormac
 			player.getDialogueHandler().sendDialogues(3574, npcType);
 			break;
@@ -99,10 +103,7 @@ public class NpcActions {
 		  case 209:
 	        	player.getDialogueHandler().sendDialogues(3500, 209);
 	        break;
-		
-		case 2238:
-			player.getDialogueHandler().sendDialogues(3214, npcType);
-		break;
+
 		
 		case 958:
 			player.getDialogueHandler().sendDialogues(3208, npcType);
@@ -805,10 +806,6 @@ public class NpcActions {
 			player.getDialogueHandler().sendDialogues(16, npcType);
 			break;
 
-		case 905:
-			player.getDialogueHandler().sendDialogues(5, npcType);
-			break;
-
 		case 460:
 			player.getDialogueHandler().sendDialogues(3, npcType);
 			break;
@@ -1028,10 +1025,6 @@ public class NpcActions {
 		switch (npcType) {
 		case 3021 :
 			player.getFarmingTools().loadInterfaces();
-			break;
-			
-		case 3:
-			player.getDialogueHandler().sendDialogues(5, npcType);
 			break;
 			
 		 case 209:
