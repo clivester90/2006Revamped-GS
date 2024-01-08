@@ -154,10 +154,6 @@ public class DialogueHandler {
 				player.nextChat = 0;
 				break;
 
-			case 14: // lumby guide
-				player.start(new LumbridgeGuide(player));
-				break;
-
 			case 15:
 				sendOption("I would like to view your shop",
 						"I would like to fix my barrows");

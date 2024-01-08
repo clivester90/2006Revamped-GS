@@ -7,6 +7,7 @@ import com.rebotted.game.content.skills.crafting.Tanning;
 import com.rebotted.game.content.skills.thieving.Pickpocket;
 import com.rebotted.game.content.traveling.Sailing;
 import com.rebotted.game.dialogues.impl.FatherAereck;
+import com.rebotted.game.dialogues.impl.LumbridgeGuide;
 import com.rebotted.game.dialogues.impl.ManAndWoman;
 import com.rebotted.game.npcs.impl.Pets;
 import com.rebotted.game.players.Player;
@@ -55,11 +56,12 @@ public class NpcActions {
 				player.start(new ManAndWoman(player, NpcHandler.npcs[npcType]));
 				break;
 
+			case 2244:
+				player.start(new LumbridgeGuide(player));
+				break;
+
 			case 456:
-				if (player.restGhost == 0) {
-					player.start(new FatherAereck(player));
-					//player.getDialogueHandler().sendDialogues(338, 456);
-				}
+				player.start(new FatherAereck(player));
 				break;
 
 			case 457:
@@ -760,10 +762,6 @@ public class NpcActions {
 
 		case 659:
 			player.getDialogueHandler().sendDialogues(18, npcType);
-			break;
-
-		case 2244:
-			player.getDialogueHandler().sendDialogues(14, npcType);
 			break;
 
 		case 641:

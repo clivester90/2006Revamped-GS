@@ -9,42 +9,57 @@ import com.rebotted.game.players.Player
 class FatherAereck(player: Player?) : DialogueBuilder(player) {
 
     init {
+        if (player != null) {
+            when (player.restGhost) {
+                5 -> {
+                    restlessGhostFinished()
+                }
 
-        setNpcId(456)
-            .npc(DialogueExpression.HAPPY, "Welcome to the church of holy Saradomin.")
-            .option(DialogueOption("Who's Saradomin?") {
-                whosSaradomin()
-            },
+                in 1.. 4 -> {
+                    setNpcId(456)
+                        .npc(
+                            DialogueExpression.HAPPY,
+                            "I hope the hunt for the ghost is going well,",
+                            "please feel free to explore the church."
+                        )
+                        .player("Thank you, we'll soon get them.")
+                }
 
-                DialogueOption("Nice place you've got here.") {
-                    nicePlaceYouGotHere()
-                },
+                else -> {
+                    player.start(
+                        DialogueBuilder(player).setNpcId(456)
+                            .npc(DialogueExpression.HAPPY, "Welcome to the church of holy Saradomin.")
+                            .option(DialogueOption("Who's Saradomin?") {
+                                whosSaradomin()
+                            },
 
-                DialogueOption("I'm looking for a quest!") {
-                    if (player != null) {
-                        if (player.restGhost == 5) {
-                            restlessGhostFinished()
-                        } else
-                            restlessGhostStart()
-                    }
-                })
+                                DialogueOption("Nice place you've got here.") {
+                                    nicePlaceYouGotHere()
+                                },
+
+                                DialogueOption("I'm looking for a quest!") {
+                                    restlessGhostStart()
+                                })
 
 
-            .option(
-                DialogueOption("Oh, THAT Saradomin...") {
-                    ohThatSaradomin()
-                },
-                DialogueOption("Oh, sorry. I'm not from this world.") {
-                    notFromThisWorld()
-                },
+                            .option(
+                                DialogueOption("Oh, THAT Saradomin...") {
+                                    ohThatSaradomin()
+                                },
+                                DialogueOption("Oh, sorry. I'm not from this world.") {
+                                    notFromThisWorld()
+                                },
 
-                DialogueOption("You don't understand. This is an online game!") {
-                    thisIsAnOnlineGame()
-                },
-                DialogueOption("I am - do you like my disguise?") {
-                    doYouLikeMyDisguise()
-                })
-
+                                DialogueOption("You don't understand. This is an online game!") {
+                                    thisIsAnOnlineGame()
+                                },
+                                DialogueOption("I am - do you like my disguise?") {
+                                    doYouLikeMyDisguise()
+                                })
+                    )
+                }
+            }
+        }
     }
 
     private fun whosSaradomin() {
