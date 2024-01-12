@@ -2,7 +2,6 @@ package com.rebotted.game.players;
 
 import java.util.*;
 
-import com.everythingrs.hiscores.Hiscores;
 import com.rebotted.game.content.gamemode.Mode;
 import com.rebotted.game.content.gamemode.ModeType;
 import com.rebotted.game.content.gamemode.RegularMode;
