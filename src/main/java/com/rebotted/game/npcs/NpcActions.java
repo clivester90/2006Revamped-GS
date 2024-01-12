@@ -51,7 +51,7 @@ public class NpcActions {
 			case 2:
 			case 3:
 			case 4:
-				player.start(new ManAndWoman(player, NpcHandler.npcs[npcType]));
+				player.start(new ManAndWoman(player, npcType));
 				break;
 
 			case 2244:

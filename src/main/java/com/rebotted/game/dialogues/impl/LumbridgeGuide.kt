@@ -7,7 +7,7 @@ import com.rebotted.game.players.Player;
 
 class LumbridgeGuide(player: Player?) : DialogueBuilder(player) {
     init {
-        setNpcId(2244).npc(DialogueExpression.HAPPY, "Greetings and welcome to " + GameConstants.SERVER_NAME + ", adventurer!");
+        player?.start(DialogueBuilder(player).setNpcId(2244).npc(DialogueExpression.HAPPY, "Greetings and welcome to " + GameConstants.SERVER_NAME + ", adventurer!"))
     }
 
 }
