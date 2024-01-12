@@ -424,11 +424,9 @@ public class CastleWars {
 	 *            team of the opponent team. (:
 	 */
 	public static void createFlagHintIcon(int x, int y) {
-		Iterator<Player> iterator = gameRoom.keySet().iterator();
-		while (iterator.hasNext()) {
-			Player teamPlayer = iterator.next();
-			teamPlayer.getPacketSender().createObjectHints(x, y, 170, 2);
-		}
+        for (Player teamPlayer : gameRoom.keySet()) {
+            teamPlayer.getPacketSender().createObjectHints(x, y, 170, 2);
+        }
 	}
 
 	/**
