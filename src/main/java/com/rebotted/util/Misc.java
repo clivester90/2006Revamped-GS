@@ -1,5 +1,6 @@
 package com.rebotted.util;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.NumberFormat;
@@ -11,6 +12,15 @@ public class Misc {
 		str = ucFirst(str);
 		str.replace("_", " ");
 		return str;
+	}
+
+	public static String replaceBracketsWithArguments(String string, Object...args) {
+		for (Object arg : args) {
+			int index = string.indexOf("{}");
+			Preconditions.checkState(index != -1, "Invalid number of parameters for string replace.");
+			string = string.replaceFirst("\\{}", arg == null ? "null" : arg.toString());
+		}
+		return string;
 	}
 
 	public static int random(final float range) {

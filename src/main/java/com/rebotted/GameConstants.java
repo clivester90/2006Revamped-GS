@@ -1,8 +1,13 @@
 package com.rebotted;
 
+import lombok.Getter;
+
 public class GameConstants {
 
-	public final static boolean SERVER_DEBUG = false;
+	@Getter
+	private static final ServerState serverState = ServerState.DEBUG;
+	public final static boolean SERVER_DEBUG = true;
+	public static boolean DISABLE_DISCORD_MESSAGING = false;
 
 	public final static String SERVER_NAME = "Runescape";
 	

@@ -1,6 +1,5 @@
 package com.rebotted.net;
 
-import java.text.DecimalFormat;
 import com.rebotted.Connection;
 import com.rebotted.GameConstants;
 import com.rebotted.GameEngine;
@@ -23,6 +22,8 @@ import com.rebotted.game.players.PlayerHandler;
 import com.rebotted.util.Misc;
 import com.rebotted.world.Boundary;
 import com.rebotted.world.clip.Region;
+
+import java.text.DecimalFormat;
 
 public class PacketSender {
 
@@ -106,6 +107,7 @@ public class PacketSender {
 			/*if (!hasBankpin) { //Kind of annoying. Maybe add Random % 10 or something.
 				getActionSender().sendMessage("You do not have a bank pin it is highly recommended you set one.");
 			}*/
+
 			System.out.println(player.getMode().getType() + " Mode is being used by " + player.playerName);
 			if (player.getMode() == null) {
 				player.mode = Mode.forType(ModeType.STANDARD);

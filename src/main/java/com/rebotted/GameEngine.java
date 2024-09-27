@@ -1,23 +1,8 @@
 package com.rebotted;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import com.rebotted.game.bots.BotHandler;
-import org.apache.mina.common.IoAcceptor;
-import org.apache.mina.transport.socket.nio.SocketAcceptor;
-import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.rebotted.event.CycleEventHandler;
+import com.rebotted.game.bots.BotHandler;
 import com.rebotted.game.content.minigames.FightCaves;
 import com.rebotted.game.content.minigames.FightPits;
 import com.rebotted.game.content.minigames.PestControl;
@@ -27,16 +12,10 @@ import com.rebotted.game.globalworldobjects.Doors;
 import com.rebotted.game.globalworldobjects.DoubleDoors;
 import com.rebotted.game.items.ItemDefinition;
 import com.rebotted.game.npcs.NpcHandler;
-import com.rebotted.game.players.Client;
 import com.rebotted.game.players.Player;
 import com.rebotted.game.players.PlayerHandler;
 import com.rebotted.game.players.PlayerSave;
 import com.rebotted.game.shops.ShopHandler;
-import com.rebotted.integrations.PlayersOnlineWebsite;
-import com.rebotted.integrations.RegisteredAccsWebsite;
-import com.rebotted.integrations.SettingsLoader;
-import com.rebotted.integrations.discord.DiscordActivity;
-import com.rebotted.integrations.discord.JavaCord;
 import com.rebotted.net.ConnectionHandler;
 import com.rebotted.net.ConnectionThrottleFilter;
 import com.rebotted.tick.Scheduler;
@@ -48,6 +27,18 @@ import com.rebotted.world.ObjectHandler;
 import com.rebotted.world.ObjectManager;
 import com.rebotted.world.clip.ObjectDefinition;
 import com.rebotted.world.clip.RegionFactory;
+import lombok.Getter;
+import org.apache.mina.common.IoAcceptor;
+import org.apache.mina.transport.socket.nio.SocketAcceptor;
+import org.apache.mina.transport.socket.nio.SocketAcceptorConfig;
+
+import java.io.*;
+import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Server.java
@@ -92,6 +83,8 @@ public class GameEngine {
 	}
 
 	private static final Scheduler scheduler2 = new Scheduler();
+	@Getter
+	private static final ScheduledExecutorService ioExecutorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder().setNameFormat("io-worker-%d").build());
 
 
 	public static Scheduler getScheduler() {
@@ -165,12 +158,6 @@ public class GameEngine {
 		System.out.println("Launching " + GameConstants.SERVER_NAME + "...");
 
 		/**
-		 * Start Integration Services
-         **/
-        SettingsLoader.loadSettings();
-		JavaCord.init();
-
-		/**
 		 * Accepting Connections
 		 */
 		acceptor = new SocketAcceptor();
@@ -203,6 +190,9 @@ public class GameEngine {
 		/**
 		 * Server Successfully Loaded
 		 */
+		if (GameConstants.getServerState().equals(ServerState.DEBUG)) {
+			//TODO - Implement discord integration
+        }
 		System.out.println("Server listening on port " + serverlistenerPort);
 
 		/**
@@ -231,9 +221,7 @@ public class GameEngine {
 				FightPits.process();
 				pestControl.process();
 				CycleEventHandler.getSingleton().process();
-				PlayersOnlineWebsite.addUpdatePlayersOnlineTask();
-				RegisteredAccsWebsite.addUpdateRegisteredUsersTask();
-				DiscordActivity.updateActivity();
+
 				if (System.currentTimeMillis() - lastMassSave > 300000) {
 					for (Player p : PlayerHandler.players) {
 						if (p == null) {
@@ -252,12 +240,12 @@ public class GameEngine {
 						continue;
 					}
 					if (p.inTrade) {
-						((Client) p).getTrading().declineTrade();
+						p.getTrading().declineTrade();
 					}
 					if (p.duelStatus == 6) {
-						((Client) p).getDueling().claimStakedItems();
+						p.getDueling().claimStakedItems();
 					}
-					PlayerSave.saveGame((Client) p);
+					PlayerSave.saveGame(p);
 					System.out.println("Saved game for " + p.playerName + ".");
 				}
 				scheduler.shutdown(); // Kills the tickloop thread if Exception is thrown.

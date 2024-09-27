@@ -10,11 +10,15 @@ import com.rebotted.game.players.right.Right;
 import com.rebotted.util.Misc;
 import com.rebotted.util.Stream;
 import com.rebotted.world.GlobalDropsHandler;
+import lombok.Getter;
 
 public class PlayerHandler {
 
 	public static Player[] players = new Player[GameConstants.MAX_PLAYERS];
-	public static int playerCount = 0, playerShopCount = 0;
+	@Getter
+	public static int playerShopCount = 0;
+	@Getter
+	public static int playerCount = 0;
 	public static String[] playersCurrentlyOn = new String[GameConstants.MAX_PLAYERS];
 	public static boolean updateAnnounced;
 	public static boolean updateRunning;
@@ -51,10 +55,6 @@ public class PlayerHandler {
 		return true;
 	}
 
-	public static int getPlayerCount() {
-		return playerCount;
-	}
-	
 	public static int getNonPlayerCount() {
 		int count = 0;
 		for (int i = 0; i < GameConstants.MAX_PLAYERS; i++) {
@@ -65,10 +65,6 @@ public class PlayerHandler {
 			}
 		}
 		return count;
-	}
-
-	public static int getPlayerShopCount() {
-		return playerShopCount;
 	}
 
 	public void updatePlayerNames() {

@@ -875,10 +875,7 @@ public class NpcActions {
 			break;
 
 		case 3789:
-			player.getPacketSender().sendMessage(
-					new StringBuilder().append("You currently have ")
-							.append(player.pcPoints).append(" pest control points.")
-							.toString());
+			player.getPacketSender().sendMessage("You currently have " + player.pcPoints + " pest control points.");
 			break;
 
 		/* Shops */
